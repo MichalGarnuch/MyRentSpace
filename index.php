@@ -31,6 +31,9 @@
         case 'buildings':
             include 'views/buildings.php';
             break;
+        case 'add_building':
+            include 'views/add_building.php'; // Wczytanie widoku formularza dodawania budynku
+            break;
         case 'apartments':
             include 'views/apartments.php';
             break;
