@@ -34,29 +34,77 @@
         case 'add_building':
             include 'views/add_building.php'; // Wczytanie widoku formularza dodawania budynku
             break;
+        case 'add_apartment':
+            include 'views/add_apartment.php';
+            break;
         case 'apartments':
-            include 'views/apartments.php';
+            include 'views/apartments.php'; // Zakładam, że widok mieszkań już istnieje
+            break;
+        case 'save_apartment':
+            include 'controllers/save_apartment.php';
+            break;
+        case 'add_tenant':
+            include 'views/add_tenant.php';
             break;
         case 'tenants':
-            include 'views/tenants.php';
+            include 'views/tenants.php'; // Zakładam, że widok najemców już istnieje
+            break;
+        case 'save_tenant':
+            include 'controllers/save_tenant.php';
+            break;
+        case 'add_owner':
+            include 'views/add_owner.php';
             break;
         case 'owners':
-            include 'views/owners.php';
+            include 'views/owners.php'; // Zakładam, że widok właścicieli już istnieje
+            break;
+        case 'save_owner':
+            include 'controllers/save_owner.php';
+            break;
+        case 'add_agreement':
+            include 'views/add_agreement.php';
             break;
         case 'agreements':
-            include 'views/agreements.php';
+            include 'views/agreements.php'; // Zakładam, że widok umów najmu już istnieje
+            break;
+        case 'save_agreement':
+            include 'controllers/save_agreement.php';
+            break;
+        case 'add_payment':
+            include 'views/add_payment.php';
             break;
         case 'payments':
-            include 'views/payments.php';
+            include 'views/payments.php'; // Zakładam, że widok płatności już istnieje
+            break;
+        case 'save_payment':
+            include 'controllers/save_payment.php';
+            break;
+        case 'add_media_usage':
+            include 'views/add_media_usage.php';
             break;
         case 'media':
-            include 'views/media.php';
+            include 'views/media.php'; // Zakładam, że widok zużycia mediów już istnieje
+            break;
+        case 'save_media_usage':
+            include 'controllers/save_media_usage.php';
+            break;
+        case 'add_maintenance':
+            include 'views/add_maintenance.php';
             break;
         case 'maintenance':
-            include 'views/maintenance.php';
+            include 'views/maintenance.php'; // Zakładam, że widok zgłoszeń serwisowych już istnieje
+            break;
+        case 'save_maintenance':
+            include 'controllers/save_maintenance.php';
+            break;
+        case 'add_notification':
+            include 'views/add_notification.php';
             break;
         case 'notifications':
-            include 'views/notifications.php';
+            include 'views/notifications.php'; // Zakładam, że widok powiadomień już istnieje
+            break;
+        case 'save_notification':
+            include 'controllers/save_notification.php';
             break;
         default:
             include 'views/home.php'; // Widok domyślny
