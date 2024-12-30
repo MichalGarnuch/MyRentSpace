@@ -10,17 +10,17 @@ $query = "
 $result = $conn->query($query);
 ?>
 
-<div class="container">
-    <h1 class="mb-4">Lista Mieszkań</h1>
-    <table class="table table-striped">
+<div class="container"> <!-- Kontener dla listy mieszkań -->
+    <h1 class="mb-4">Lista Mieszkań</h1> <!-- Nagłówek strony -->
+    <table class="table table-striped"> <!-- Tabela z listą mieszkań -->
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Numer mieszkania</th>
-            <th>Piętro</th>
-            <th>Powierzchnia (m²)</th>
-            <th>Status</th>
-            <th>Budynek</th>
+            <th>ID</th> <!-- Kolumna ID mieszkania -->
+            <th>Numer mieszkania</th> <!-- Kolumna numeru mieszkania -->
+            <th>Piętro</th> <!-- Kolumna numeru piętra -->
+            <th>Powierzchnia (m²)</th> <!-- Kolumna powierzchni mieszkania -->
+            <th>Status</th> <!-- Kolumna statusu mieszkania -->
+            <th>Budynek</th> <!-- Kolumna adresu budynku -->
         </tr>
         </thead>
         <tbody>
@@ -37,9 +37,17 @@ $result = $conn->query($query);
                           </tr>";
             }
         } else {
-            echo "<tr><td colspan='6' class='text-center'>Brak danych</td></tr>";
+            echo "<tr><td colspan='6' class='text-center'>Brak danych</td></tr>"; // Wiersz informujący o braku danych
         }
         ?>
         </tbody>
     </table>
 </div>
+
+<!--/*-->
+<!--Kluczowe informacje:-->
+<!--- Plik `apartments.php` generuje listę mieszkań.-->
+<!--- Dane pobierane są za pomocą zapytania SQL z tabel apartments oraz buildings, wykorzystując JOIN.-->
+<!--- Wyświetlane dane obejmują ID mieszkania, numer mieszkania, piętro, powierzchnię, status oraz adres budynku (ulica i numer).-->
+<!--- W przypadku braku danych tabela wyświetla informację "Brak danych".-->
+<!--*/-->

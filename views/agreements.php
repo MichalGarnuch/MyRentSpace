@@ -18,19 +18,19 @@ if (!$result) {
 }
 ?>
 
-<div class="container">
-    <h1 class="mb-4">Lista Umów Najmu</h1>
-    <table class="table table-striped">
+<div class="container"> <!-- Kontener dla listy umów najmu -->
+    <h1 class="mb-4">Lista Umów Najmu</h1> <!-- Nagłówek strony -->
+    <table class="table table-striped"> <!-- Tabela z listą umów -->
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Mieszkanie</th>
-            <th>Najemca</th>
-            <th>Właściciel</th>
-            <th>Data rozpoczęcia</th>
-            <th>Data zakończenia</th>
-            <th>Czynsz</th>
-            <th>Status</th>
+            <th>ID</th> <!-- Kolumna ID -->
+            <th>Mieszkanie</th> <!-- Kolumna mieszkania -->
+            <th>Najemca</th> <!-- Kolumna najemcy -->
+            <th>Właściciel</th> <!-- Kolumna właściciela -->
+            <th>Data rozpoczęcia</th> <!-- Kolumna daty rozpoczęcia -->
+            <th>Data zakończenia</th> <!-- Kolumna daty zakończenia -->
+            <th>Czynsz</th> <!-- Kolumna czynszu -->
+            <th>Status</th> <!-- Kolumna statusu -->
         </tr>
         </thead>
         <tbody>
@@ -49,9 +49,17 @@ if (!$result) {
                           </tr>";
             }
         } else {
-            echo "<tr><td colspan='8' class='text-center'>Brak danych</td></tr>";
+            echo "<tr><td colspan='8' class='text-center'>Brak danych</td></tr>"; // Wiersz informujący o braku danych
         }
         ?>
         </tbody>
     </table>
 </div>
+
+<!--/*-->
+<!--Kluczowe informacje:-->
+<!--- Plik `agreements.php` generuje listę umów najmu.-->
+<!--- Dane pobierane są za pomocą zapytania SQL z tabel: rental_agreements, apartments, tenants i owners, wykorzystując JOIN.-->
+<!--- Wyświetlane dane obejmują ID umowy, numer mieszkania, najemcę, właściciela, daty rozpoczęcia i zakończenia, kwotę czynszu oraz status.-->
+<!--- W przypadku braku danych tabela wyświetla informację "Brak danych".-->
+<!--*/-->

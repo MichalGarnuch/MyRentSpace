@@ -11,17 +11,17 @@ $query = "
 $result = $conn->query($query);
 ?>
 
-<div class="container">
-    <h1 class="mb-4">Zużycie Mediów</h1>
-    <table class="table table-striped">
+<div class="container"> <!-- Kontener dla listy zużycia mediów -->
+    <h1 class="mb-4">Zużycie Mediów</h1> <!-- Nagłówek strony -->
+    <table class="table table-striped"> <!-- Tabela z listą zużycia mediów -->
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Mieszkanie</th>
-            <th>Medium</th>
-            <th>Data odczytu</th>
-            <th>Wartość</th>
-            <th>Zarchiwizowane</th>
+            <th>ID</th> <!-- Kolumna ID odczytu -->
+            <th>Mieszkanie</th> <!-- Kolumna mieszkania -->
+            <th>Medium</th> <!-- Kolumna medium -->
+            <th>Data odczytu</th> <!-- Kolumna daty odczytu -->
+            <th>Wartość</th> <!-- Kolumna wartości zużycia -->
+            <th>Zarchiwizowane</th> <!-- Kolumna statusu archiwizacji -->
         </tr>
         </thead>
         <tbody>
@@ -38,9 +38,17 @@ $result = $conn->query($query);
                           </tr>";
             }
         } else {
-            echo "<tr><td colspan='6' class='text-center'>Brak danych</td></tr>";
+            echo "<tr><td colspan='6' class='text-center'>Brak danych</td></tr>"; // Wiersz informujący o braku danych
         }
         ?>
         </tbody>
     </table>
 </div>
+
+<!--/*-->
+<!--Kluczowe informacje:-->
+<!--- Plik `media.php` generuje listę odczytów zużycia mediów.-->
+<!--- Dane pobierane są za pomocą zapytania SQL z tabel media_usage, apartments oraz media_types, wykorzystując JOIN.-->
+<!--- Wyświetlane dane obejmują ID odczytu, numer mieszkania, nazwę medium, datę odczytu, wartość oraz status archiwizacji.-->
+<!--- W przypadku braku danych tabela wyświetla informację "Brak danych".-->
+<!--*/-->

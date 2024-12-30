@@ -6,16 +6,16 @@ $query = "SELECT id, first_name, last_name, phone, email FROM tenants";
 $result = $conn->query($query);
 ?>
 
-<div class="container">
-    <h1 class="mb-4">Lista Najemców</h1>
-    <table class="table table-striped">
+<div class="container"> <!-- Kontener dla listy najemców -->
+    <h1 class="mb-4">Lista Najemców</h1> <!-- Nagłówek strony -->
+    <table class="table table-striped"> <!-- Tabela z listą najemców -->
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Imię</th>
-            <th>Nazwisko</th>
-            <th>Telefon</th>
-            <th>Email</th>
+            <th>ID</th> <!-- Kolumna ID najemcy -->
+            <th>Imię</th> <!-- Kolumna imię -->
+            <th>Nazwisko</th> <!-- Kolumna nazwisko -->
+            <th>Telefon</th> <!-- Kolumna telefonu -->
+            <th>Email</th> <!-- Kolumna adresu e-mail -->
         </tr>
         </thead>
         <tbody>
@@ -31,9 +31,17 @@ $result = $conn->query($query);
                           </tr>";
             }
         } else {
-            echo "<tr><td colspan='5' class='text-center'>Brak danych</td></tr>";
+            echo "<tr><td colspan='5' class='text-center'>Brak danych</td></tr>"; // Wiersz informujący o braku danych
         }
         ?>
         </tbody>
     </table>
 </div>
+
+<!--/*-->
+<!--Kluczowe informacje:-->
+<!--- Plik `tenants.php` generuje listę najemców.-->
+<!--- Dane pobierane są za pomocą zapytania SQL z tabeli tenants.-->
+<!--- Wyświetlane dane obejmują ID, imię, nazwisko, numer telefonu oraz adres e-mail.-->
+<!--- W przypadku braku danych tabela wyświetla informację "Brak danych".-->
+<!--*/-->

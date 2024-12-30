@@ -10,16 +10,16 @@ $query = "
 $result = $conn->query($query);
 ?>
 
-<div class="container">
-    <h1 class="mb-4">Zgłoszenia Serwisowe</h1>
-    <table class="table table-striped">
+<div class="container"> <!-- Kontener dla listy zgłoszeń serwisowych -->
+    <h1 class="mb-4">Zgłoszenia Serwisowe</h1> <!-- Nagłówek strony -->
+    <table class="table table-striped"> <!-- Tabela z listą zgłoszeń -->
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Mieszkanie</th>
-            <th>Opis zgłoszenia</th>
-            <th>Data zgłoszenia</th>
-            <th>Status</th>
+            <th>ID</th> <!-- Kolumna ID zgłoszenia -->
+            <th>Mieszkanie</th> <!-- Kolumna mieszkania -->
+            <th>Opis zgłoszenia</th> <!-- Kolumna opisu zgłoszenia -->
+            <th>Data zgłoszenia</th> <!-- Kolumna daty zgłoszenia -->
+            <th>Status</th> <!-- Kolumna statusu zgłoszenia -->
         </tr>
         </thead>
         <tbody>
@@ -35,9 +35,16 @@ $result = $conn->query($query);
                           </tr>";
             }
         } else {
-            echo "<tr><td colspan='5' class='text-center'>Brak danych</td></tr>";
+            echo "<tr><td colspan='5' class='text-center'>Brak danych</td></tr>"; // Wiersz informujący o braku danych
         }
         ?>
         </tbody>
     </table>
 </div>
+<!--/*-->
+<!--Kluczowe informacje:-->
+<!--- Plik `maintenance.php` generuje listę zgłoszeń serwisowych.-->
+<!--- Dane pobierane są za pomocą zapytania SQL z tabel maintenance_requests oraz apartments, wykorzystując JOIN.-->
+<!--- Wyświetlane dane obejmują ID zgłoszenia, numer mieszkania, opis zgłoszenia, datę zgłoszenia oraz status.-->
+<!--- W przypadku braku danych tabela wyświetla informację "Brak danych".-->
+<!--*/-->

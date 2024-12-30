@@ -10,17 +10,17 @@ $query = "
 $result = $conn->query($query);
 ?>
 
-<div class="container">
-    <h1 class="mb-4">Powiadomienia</h1>
-    <table class="table table-striped">
+<div class="container"> <!-- Kontener dla listy powiadomień -->
+    <h1 class="mb-4">Powiadomienia</h1> <!-- Nagłówek strony -->
+    <table class="table table-striped"> <!-- Tabela z listą powiadomień -->
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Użytkownik</th>
-            <th>Treść powiadomienia</th>
-            <th>Typ</th>
-            <th>Data wysłania</th>
-            <th>Status</th>
+            <th>ID</th> <!-- Kolumna ID powiadomienia -->
+            <th>Użytkownik</th> <!-- Kolumna nazwy użytkownika -->
+            <th>Treść powiadomienia</th> <!-- Kolumna treści powiadomienia -->
+            <th>Typ</th> <!-- Kolumna typu powiadomienia -->
+            <th>Data wysłania</th> <!-- Kolumna daty wysłania -->
+            <th>Status</th> <!-- Kolumna statusu powiadomienia -->
         </tr>
         </thead>
         <tbody>
@@ -37,9 +37,18 @@ $result = $conn->query($query);
                           </tr>";
             }
         } else {
-            echo "<tr><td colspan='6' class='text-center'>Brak danych</td></tr>";
+            echo "<tr><td colspan='6' class='text-center'>Brak danych</td></tr>"; // Wiersz informujący o braku danych
         }
         ?>
         </tbody>
     </table>
 </div>
+
+<!--/*-->
+<!--Kluczowe informacje:-->
+<!--- Plik `notifications.php` generuje listę powiadomień.-->
+<!--- Dane pobierane są za pomocą zapytania SQL z tabel notifications oraz users, wykorzystując JOIN.-->
+<!--- Wyświetlane dane obejmują ID powiadomienia, nazwę użytkownika, treść powiadomienia, typ, datę wysłania oraz status.-->
+<!--- Status jest wyświetlany jako "Nieprzeczytane" lub "Przeczytane" w zależności od wartości kolumny `status`.-->
+<!--- W przypadku braku danych tabela wyświetla informację "Brak danych".-->
+<!--*/-->

@@ -6,17 +6,17 @@ $query = "SELECT * FROM buildings";
 $result = $conn->query($query);
 ?>
 
-<div class="container">
-    <h1 class="mb-4">Lista Budynków</h1>
+<div class="container"> <!-- Kontener dla listy budynków -->
+    <h1 class="mb-4">Lista Budynków</h1> <!-- Nagłówek strony -->
     <!-- Tabela wyświetlająca dane -->
-    <table class="table table-striped">
+    <table class="table table-striped"> <!-- Tabela z listą budynków -->
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Ulica</th>
-            <th>Numer budynku</th>
-            <th>Liczba pięter</th>
-            <th>Koszty wspólne</th>
+            <th>ID</th> <!-- Kolumna ID budynku -->
+            <th>Ulica</th> <!-- Kolumna ulicy -->
+            <th>Numer budynku</th> <!-- Kolumna numeru budynku -->
+            <th>Liczba pięter</th> <!-- Kolumna liczby pięter -->
+            <th>Koszty wspólne</th> <!-- Kolumna kosztów wspólnych -->
         </tr>
         </thead>
         <tbody>
@@ -33,9 +33,17 @@ $result = $conn->query($query);
                           </tr>";
             }
         } else {
-            echo "<tr><td colspan='5' class='text-center'>Brak danych</td></tr>";
+            echo "<tr><td colspan='5' class='text-center'>Brak danych</td></tr>"; // Wiersz informujący o braku danych
         }
         ?>
         </tbody>
     </table>
 </div>
+
+<!--/*-->
+<!--Kluczowe informacje:-->
+<!--- Plik `buildings.php` generuje listę budynków.-->
+<!--- Dane pobierane są za pomocą prostego zapytania SQL z tabeli `buildings`.-->
+<!--- Wyświetlane dane obejmują ID budynku, ulicę, numer budynku, liczbę pięter oraz koszty wspólne.-->
+<!--- W przypadku braku danych tabela wyświetla informację "Brak danych".-->
+<!--*/-->

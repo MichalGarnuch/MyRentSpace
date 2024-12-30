@@ -10,17 +10,17 @@ $query = "
 $result = $conn->query($query);
 ?>
 
-<div class="container">
-    <h1 class="mb-4">Lista Płatności</h1>
-    <table class="table table-striped">
+<div class="container"> <!-- Kontener dla listy płatności -->
+    <h1 class="mb-4">Lista Płatności</h1> <!-- Nagłówek strony -->
+    <table class="table table-striped"> <!-- Tabela z listą płatności -->
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Umowa</th>
-            <th>Data płatności</th>
-            <th>Kwota</th>
-            <th>Typ</th>
-            <th>Status</th>
+            <th>ID</th> <!-- Kolumna ID płatności -->
+            <th>Umowa</th> <!-- Kolumna ID umowy najmu -->
+            <th>Data płatności</th> <!-- Kolumna daty płatności -->
+            <th>Kwota</th> <!-- Kolumna kwoty płatności -->
+            <th>Typ</th> <!-- Kolumna typu płatności -->
+            <th>Status</th> <!-- Kolumna statusu płatności -->
         </tr>
         </thead>
         <tbody>
@@ -37,9 +37,17 @@ $result = $conn->query($query);
                           </tr>";
             }
         } else {
-            echo "<tr><td colspan='6' class='text-center'>Brak danych</td></tr>";
+            echo "<tr><td colspan='6' class='text-center'>Brak danych</td></tr>"; // Wiersz informujący o braku danych
         }
         ?>
         </tbody>
     </table>
 </div>
+
+<!--/*-->
+<!--Kluczowe informacje:-->
+<!--- Plik `payments.php` generuje listę płatności.-->
+<!--- Dane pobierane są za pomocą zapytania SQL z tabel rent_payments oraz rental_agreements, wykorzystując JOIN.-->
+<!--- Wyświetlane dane obejmują ID płatności, ID umowy, datę płatności, kwotę, typ oraz status płatności.-->
+<!--- W przypadku braku danych tabela wyświetla informację "Brak danych".-->
+<!--*/-->
