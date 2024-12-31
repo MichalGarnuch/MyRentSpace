@@ -22,11 +22,3 @@
         Zaloguj się <!-- Przycisk otwierający modal logowania -->
     </button>
 </header>
-
-<!--/*-->
-<!--Kluczowe informacje:-->
-<!--- Plik `header.php` generuje nagłówek aplikacji.-->
-<!--- Zawiera tytuł aplikacji ("MyRentSpace") oraz menu rozwijane umożliwiające dodawanie danych do różnych modułów aplikacji.-->
-<!--- Przyciski w menu są dynamiczne i odwołują się do odpowiednich widoków w `index.php`.-->
-<!--- Przycisk "Zaloguj się" otwiera modal logowania.-->
-<!--*/-->

@@ -38,11 +38,3 @@
         </div>
     </div>
 </nav>
-
-<!--/*-->
-<!--Kluczowe informacje:-->
-<!--- Plik `menu.php` generuje pasek nawigacyjny dla aplikacji.-->
-<!--- Zawiera odnośniki do różnych modułów aplikacji, takich jak: budynki, mieszkania, najemcy, właściciele, umowy najmu, płatności, zużycie mediów, zgłoszenia serwisowe oraz powiadomienia.-->
-<!--- Element `navbar-toggler` umożliwia rozwijanie menu na urządzeniach mobilnych.-->
-<!--- Linki są dynamiczne i przekierowują do odpowiednich widoków w zależności od parametru `view` w URL.-->
-<!--*/-->

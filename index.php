@@ -1,3 +1,7 @@
+<?php
+ob_start(); // Włączenie buforowania wyjścia
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -90,3 +94,6 @@
 <?php include 'views/login_modal.php'; ?> <!-- Modal logowania -->
 </body>
 </html>
+<?php
+ob_end_flush(); // Wysłanie buforowanej zawartości do przeglądarki
+?>

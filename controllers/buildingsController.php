@@ -31,7 +31,7 @@ class BuildingsController {
         try {
             // Sprawdź, czy użytkownik wybrał istniejącą miejscowość, czy wpisał nową
             if (empty($data['location_id']) && empty($data['new_city'])) {
-                header('Location: ../index.php?view=add_building&error=empty_location');
+                header('Location: index.php?view=add_building&error=empty_location');
                 exit();
             }
 
@@ -48,7 +48,7 @@ class BuildingsController {
 
             // Walidacja pozostałych pól
             if (empty($location_id) || empty($data['street']) || empty($data['building_number']) || empty($data['total_floors']) || empty($data['common_cost'])) {
-                header('Location: ../index.php?view=add_building&error=empty_fields');
+                header('Location: index.php?view=add_building&error=empty_fields');
                 exit();
             }
 
@@ -61,10 +61,14 @@ class BuildingsController {
                 'common_cost' => $data['common_cost']
             ]);
 
-            header('Location: ../index.php?view=buildings&success=building_added');
+            // Przekierowanie z informacją o sukcesie
+            header('Location: index.php?view=add_building&success=building_added');
+            exit();
         } catch (Exception $e) {
-            header('Location: ../index.php?view=add_building&error=' . urlencode($e->getMessage()));
+            header('Location: index.php?view=add_building&error=' . urlencode($e->getMessage()));
+            exit();
         }
     }
+
 
 }

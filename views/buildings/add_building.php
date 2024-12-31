@@ -1,5 +1,15 @@
 <div class="container mt-4">
     <h1 class="mb-4">Dodaj Budynek</h1>
+    <!-- Sekcja komunikatów -->
+    <?php if (isset($_GET['success']) && $_GET['success'] === 'building_added'): ?>
+        <div class="alert alert-success">
+            Nowy budynek został dodany pomyślnie!
+        </div>
+    <?php elseif (isset($_GET['error'])): ?>
+        <div class="alert alert-danger">
+            <?= htmlspecialchars($_GET['error']) ?>
+        </div>
+    <?php endif; ?>
     <form method="POST" action="index.php?action=save_building">
         <div class="mb-3">
             <label for="location_id" class="form-label">Miejscowość:</label>
