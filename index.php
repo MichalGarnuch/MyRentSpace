@@ -1,99 +1,103 @@
 <?php
-ob_start(); // Włączenie buforowania wyjścia
+ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych przed funkcją header().
 ?>
 
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyRentSpace</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Własne style -->
-    <link href="assets/custom.css" rel="stylesheet">
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Własne skrypty -->
-    <script src="assets/custom.js"></script>
+    <!-- Metadane strony -->
+    <meta charset="UTF-8"> <!-- Kodowanie znaków -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Skalowanie dla urządzeń mobilnych -->
+    <title>MyRentSpace</title> <!-- Tytuł strony -->
+
+    <!-- Łączenie stylów Bootstrap i własnych -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
+    <link href="assets/custom.css" rel="stylesheet"> <!-- Własny plik CSS -->
+
+    <!-- Łączenie skryptów Bootstrap i własnych -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
+    <script src="assets/custom.js"></script> <!-- Własny plik JS -->
 </head>
 <body>
-<?php include 'partials/header.php'; ?> <!-- Nagłówek strony -->
-<?php include 'partials/menu.php'; ?> <!-- Menu nawigacyjne -->
+<?php include 'partials/header.php'; ?> <!-- Włączenie nagłówka strony -->
+<?php include 'partials/menu.php'; ?> <!-- Włączenie menu nawigacyjnego -->
 
 <div class="container mt-4">
     <?php
-    // Debugowanie
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    // Ustawienia debugowania (pokazywanie błędów na stronie)
+    ini_set('display_errors', 1); // Włączanie wyświetlania błędów
+    ini_set('display_startup_errors', 1); // Włączanie błędów startowych
+    error_reporting(E_ALL); // Wyświetlanie wszystkich poziomów błędów
 
-    // Połączenie z bazą i załadowanie kontrolerów
-    require_once 'config/db.php';
-    require_once 'controllers/agreementsController.php';
-    require_once 'controllers/buildingsController.php';
-    require_once 'controllers/apartmentsController.php';
+    // Wczytywanie połączenia z bazą danych oraz kontrolerów
+    require_once 'config/db.php'; // Łączenie z bazą danych
+    require_once 'controllers/agreementsController.php'; // Kontroler obsługujący umowy najmu
+    require_once 'controllers/buildingsController.php'; // Kontroler obsługujący budynki
+    require_once 'controllers/apartmentsController.php'; // Kontroler obsługujący mieszkania
 
-    // Obsługa routingu
-    $view = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'home';
-    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS);
+    // Obsługa routingu:
+    // Pobranie wartości `view` (widok) i `action` (akcja) z URL
+    $view = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'home'; // Widok domyślny to "home"
+    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS); // Akcja (np. zapis danych)
 
     // Inicjalizacja kontrolerów
-    $agreementsController = new AgreementsController($conn);
-    $buildingsController = new BuildingsController($conn);
-    $apartmentsController = new ApartmentsController($conn);
+    $agreementsController = new AgreementsController($conn); // Inicjalizacja kontrolera umów
+    $buildingsController = new BuildingsController($conn); // Inicjalizacja kontrolera budynków
+    $apartmentsController = new ApartmentsController($conn); // Inicjalizacja kontrolera mieszkań
 
-    // Obsługa akcji
+    // Obsługa akcji (np. zapis danych do bazy)
     try {
         if ($action) {
+            // Sprawdzanie, jaka akcja została wywołana
             switch ($action) {
                 case 'save_agreement':
-                    $agreementsController->saveAgreement($_POST);
+                    $agreementsController->saveAgreement($_POST); // Zapis nowej umowy
                     break;
                 case 'save_building':
-                    $buildingsController->saveBuilding($_POST);
+                    $buildingsController->saveBuilding($_POST); // Zapis nowego budynku
                     break;
                 case 'save_apartment':
-                    $apartmentsController->addApartment($_POST);
+                    $apartmentsController->addApartment($_POST); // Zapis nowego mieszkania
                     break;
                 default:
-                    throw new Exception("Nieznana akcja: $action");
+                    throw new Exception("Nieznana akcja: $action"); // Obsługa nieznanej akcji
             }
         } else {
-            // Obsługa widoków
+            // Obsługa widoków (np. lista budynków, formularz dodawania)
             switch ($view) {
                 case 'agreements':
-                    $agreementsController->listAgreements();
+                    $agreementsController->listAgreements(); // Wyświetlenie listy umów najmu
                     break;
                 case 'add_agreement':
-                    include __DIR__ . '/views/agreements/add_agreement.php';
+                    $agreementsController->addAgreementView(); // Formularz dodawania nowej umowy najmu
                     break;
                 case 'buildings':
-                    $buildingsController->listBuildings();
+                    $buildingsController->listBuildings(); // Wyświetlenie listy budynków
                     break;
-                case 'add_building': // Dodaj ten case
-                    $buildingsController->addBuildingView(); // Wywołanie kontrolera
+                case 'add_building':
+                    $buildingsController->addBuildingView(); // Formularz dodawania nowego budynku
                     break;
                 case 'apartments':
-                    $apartmentsController->listApartments();
+                    $apartmentsController->listApartments(); // Wyświetlenie listy mieszkań
                     break;
                 case 'add_apartment':
-                    include __DIR__ . '/views/apartments/add_apartment.php';
+                    include __DIR__ . '/views/apartments/add_apartment.php'; // Formularz dodawania nowego mieszkania
                     break;
                 default:
-                    include 'views/home.php';
+                    include 'views/home.php'; // Widok domyślny (np. strona główna)
             }
         }
     } catch (Exception $e) {
+        // Wyświetlanie błędu w przypadku wyjątku
         echo "<div class='alert alert-danger'>Błąd: " . htmlspecialchars($e->getMessage()) . "</div>";
     }
     ?>
 </div>
 
-<?php include 'partials/footer.php'; ?> <!-- Stopka -->
-<?php include 'views/login_modal.php'; ?> <!-- Modal logowania -->
+<?php include 'partials/footer.php'; ?> <!-- Włączenie stopki -->
+<?php include 'views/login_modal.php'; ?> <!-- Włączenie modala logowania -->
 </body>
 </html>
 <?php
-ob_end_flush(); // Wysłanie buforowanej zawartości do przeglądarki
+ob_end_flush(); // Wysłanie buforowanej zawartości do przeglądarki (koniec buforowania)
 ?>

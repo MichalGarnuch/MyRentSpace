@@ -1,10 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light"> <!-- Pasek nawigacyjny aplikacji -->
     <div class="container-fluid"> <!-- Kontener dla elementów paska nawigacyjnego -->
-        <a class="navbar-brand" href="index.php">MyRentSpace</a> <!-- Logo lub nazwa aplikacji z linkiem do strony głównej -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"> <!-- Przycisk rozwijania menu dla urządzeń mobilnych -->
-            <span class="navbar-toggler-icon"></span>
+        <!-- Logo aplikacji lub link do strony głównej -->
+        <a class="navbar-brand" href="index.php">MyRentSpace</a>
+
+        <!-- Przycisk rozwijania menu dla urządzeń mobilnych -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span> <!-- Ikona rozwijania menu -->
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav"> <!-- Rozwijane menu nawigacyjne -->
+
+        <!-- Rozwijane menu nawigacyjne -->
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <!-- Linki do poszczególnych widoków aplikacji -->
                 <li class="nav-item">
