@@ -13,7 +13,7 @@
         <!-- Wybór lub dodanie lokalizacji -->
         <div class="mb-3">
             <label for="location_id" class="form-label">Miejscowość:</label>
-            <select class="form-control" id="location_id" name="location_id" onchange="toggleNewLocationFields()">
+            <select class="form-control" id="location_id" name="location_id" onchange="filterBuildings()">
                 <option value="">Wybierz miejscowość</option>
                 <!-- Iteracja przez tablicę $locations, aby wyświetlić dostępne miejscowości -->
                 <?php foreach ($locations as $location): ?>
@@ -36,11 +36,11 @@
         <!-- Wybór lub dodanie budynku -->
         <div class="mb-3">
             <label for="building_id" class="form-label">Budynek:</label>
-            <select class="form-control" id="building_id" name="building_id" onchange="toggleNewBuildingFields()" required>
+            <select class="form-control" id="building_id" name="building_id" onchange="lockBuildingFields()">
                 <option value="">Wybierz budynek</option>
                 <?php foreach ($buildings as $building): ?>
-                    <option value="<?= htmlspecialchars($building['id']) ?>">
-                        <?= htmlspecialchars($building['full_address']) ?>
+                    <option value="<?= htmlspecialchars($building['id']) ?>" data-location-id="<?= htmlspecialchars($building['location_id']) ?>">
+                    <?= htmlspecialchars($building['full_address']) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -87,7 +87,78 @@
         <button type="submit" class="btn btn-success">Dodaj Mieszkanie</button>
     </form>
 </div>
+<script>
+    function filterBuildings() {
+        const locationId = document.getElementById('location_id').value;
+        const buildingSelect = document.getElementById('building_id');
+        const buildingOptions = buildingSelect.querySelectorAll('option');
 
+        // Jeśli nie wybrano miejscowości, pokaż wszystkie budynki
+        if (!locationId) {
+            buildingOptions.forEach(option => {
+                option.style.display = ''; // Pokaż wszystkie budynki
+            });
+            lockLocationFields(); // Sprawdź blokadę dla lokalizacji
+            return;
+        }
+
+        // Filtruj budynki na podstawie `data-location-id`
+        buildingOptions.forEach(option => {
+            const optionLocationId = option.dataset.locationId;
+            if (optionLocationId && optionLocationId !== locationId) {
+                option.style.display = 'none'; // Ukryj budynki z inną lokalizacją
+            } else {
+                option.style.display = ''; // Pokaż budynki z wybraną lokalizacją
+            }
+        });
+
+        buildingSelect.value = ''; // Reset wyboru budynku
+        lockLocationFields(); // Sprawdź blokadę dla lokalizacji
+    }
+
+    function lockLocationFields() {
+        const locationSelect = document.getElementById('location_id');
+        const newCityField = document.getElementById('new_city');
+        const newPostalCodeField = document.getElementById('new_postal_code');
+
+        if (locationSelect.value) {
+            // Zablokuj pola nowej lokalizacji, jeśli wybrano istniejącą lokalizację
+            newCityField.disabled = true;
+            newPostalCodeField.disabled = true;
+            newCityField.value = ''; // Wyczyść pole "Nowa miejscowość"
+            newPostalCodeField.value = ''; // Wyczyść pole "Kod pocztowy"
+        } else {
+            // Odblokuj pola nowej lokalizacji, jeśli nie wybrano istniejącej lokalizacji
+            newCityField.disabled = false;
+            newPostalCodeField.disabled = false;
+        }
+    }
+
+    function lockBuildingFields() {
+        const buildingSelect = document.getElementById('building_id');
+        const selectedBuilding = buildingSelect.options[buildingSelect.selectedIndex];
+        const newStreetField = document.getElementById('new_street');
+        const newBuildingNumberField = document.getElementById('new_building_number');
+
+        if (selectedBuilding && selectedBuilding.value) {
+            // Zablokuj pola nowego budynku, jeśli wybrano istniejący budynek
+            newStreetField.disabled = true;
+            newBuildingNumberField.disabled = true;
+            newStreetField.value = ''; // Wyczyść pole "Ulica"
+            newBuildingNumberField.value = ''; // Wyczyść pole "Numer budynku"
+        } else {
+            // Odblokuj pola nowego budynku, jeśli nie wybrano istniejącego budynku
+            newStreetField.disabled = false;
+            newBuildingNumberField.disabled = false;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        filterBuildings(); // Filtruj budynki przy ładowaniu strony
+        lockBuildingFields(); // Sprawdź blokadę pól budynku przy ładowaniu strony
+        lockLocationFields(); // Sprawdź blokadę pól lokalizacji przy ładowaniu strony
+    });
+</script>
 <script>
     // Funkcja toggleNewLocationFields: Włącza/wyłącza pola "Nowa miejscowość" i "Kod pocztowy"
     // w zależności od tego, czy użytkownik wybrał istniejącą miejscowość z listy.

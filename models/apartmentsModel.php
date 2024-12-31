@@ -94,7 +94,11 @@ class ApartmentsModel {
     // Funkcja getAllBuildings: Pobiera wszystkie budynki z tabeli `buildings`.
     // 1. Zwraca wyniki jako tablicę asocjacyjną.
     public function getAllBuildings() {
-        $query = "SELECT id, CONCAT(building_number, ', ', street) AS full_address FROM buildings ORDER BY street ASC"; // Zapytanie SQL
+        $query = "
+        SELECT b.id, b.street, b.building_number, b.location_id, 
+               CONCAT(b.street, ' ', b.building_number) AS full_address
+        FROM buildings b
+    ";
         $result = $this->db->query($query);
 
         if ($result) {
