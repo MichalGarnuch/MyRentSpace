@@ -1,32 +1,66 @@
 <?php
-// buildingsModel.php
-// Model obsługujący operacje na danych dotyczących budynków.
-// Odpowiada za interakcję z bazą danych oraz manipulacje danymi budynków.
+class BuildingsModel {
+    private $db;
 
-class BuildingModel {
-    private $db; // Połączenie z bazą danych
-
-    // Konstruktor przyjmujący połączenie z bazą danych
     public function __construct($db) {
         $this->db = $db;
     }
 
-    // Funkcja do dodawania nowego budynku
-    // Parametry:
-    // - $data (array): Dane wejściowe dla nowego budynku (ulica, numer budynku, liczba pięter)
-    // Zwraca:
-    // - bool: true w przypadku sukcesu, exception w przypadku błędu
-    public function save($data) {
-        $query = "INSERT INTO buildings (street, building_number, total_floors) VALUES (?, ?, ?)"; // Zapytanie SQL
-        $stmt = $this->db->prepare($query); // Przygotowanie zapytania
-        $stmt->bind_param("ssi", $data['street'], $data['building_number'], $data['total_floors']); // Powiązanie parametrów
+    public function getAll() {
+        $query = "
+            SELECT b.id, l.city, l.postal_code, b.street, b.building_number, b.total_floors, b.common_cost
+            FROM buildings b
+            JOIN locations l ON b.location_id = l.id
+        ";
+        $result = $this->db->query($query);
 
-        if ($stmt->execute()) { // Wykonanie zapytania
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            throw new Exception("Błąd zapytania SQL: " . $this->db->error);
+        }
+    }
+    public function addLocation($data) {
+        $query = "INSERT INTO locations (city, postal_code) VALUES (?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ss", $data['city'], $data['postal_code']);
+
+        if ($stmt->execute()) {
+            return $this->db->insert_id; // Zwraca ID nowo dodanej miejscowości
+        } else {
+            throw new Exception("Błąd zapisu miejscowości: " . $stmt->error);
+        }
+    }
+
+
+    public function getAllLocations() {
+        $query = "SELECT id, city, postal_code FROM locations ORDER BY city ASC"; // Posortowane alfabetycznie
+        $result = $this->db->query($query);
+
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC); // Zwraca wszystkie rekordy jako tablicę asocjacyjną
+        } else {
+            throw new Exception("Błąd zapytania SQL: " . $this->db->error);
+        }
+    }
+
+
+    public function save($data) {
+        $query = "INSERT INTO buildings (location_id, street, building_number, total_floors, common_cost) 
+                  VALUES (?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("issid",
+            $data['location_id'],
+            $data['street'],
+            $data['building_number'],
+            $data['total_floors'],
+            $data['common_cost']
+        );
+
+        if ($stmt->execute()) {
             return true;
         } else {
-            throw new Exception("Błąd zapisu: " . $this->db->error); // Obsługa błędu w przypadku niepowodzenia
+            throw new Exception("Błąd zapisu: " . $stmt->error);
         }
     }
 }
-
-?>
