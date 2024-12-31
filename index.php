@@ -57,7 +57,7 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
                     $buildingsController->saveBuilding($_POST); // Zapis nowego budynku
                     break;
                 case 'save_apartment':
-                    $apartmentsController->addApartment($_POST); // Zapis nowego mieszkania
+                    $apartmentsController->saveApartment($_POST); // Zapis nowego mieszkania
                     break;
                 default:
                     throw new Exception("Nieznana akcja: $action"); // Obsługa nieznanej akcji
@@ -81,7 +81,7 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
                     $apartmentsController->listApartments(); // Wyświetlenie listy mieszkań
                     break;
                 case 'add_apartment':
-                    include __DIR__ . '/views/apartments/add_apartment.php'; // Formularz dodawania nowego mieszkania
+                    $apartmentsController->addApartmentView(); // Formularz dodawania nowego mieszkania
                     break;
                 default:
                     include 'views/home.php'; // Widok domyślny (np. strona główna)
