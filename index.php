@@ -34,6 +34,7 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
     require_once 'controllers/agreementsController.php'; // Kontroler obsługujący umowy najmu
     require_once 'controllers/buildingsController.php'; // Kontroler obsługujący budynki
     require_once 'controllers/apartmentsController.php'; // Kontroler obsługujący mieszkania
+    require_once 'controllers/tenantsController.php'; // Kontroler obsługujący najemców
 
     // Obsługa routingu:
     // Pobranie wartości `view` (widok) i `action` (akcja) z URL
@@ -44,6 +45,7 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
     $agreementsController = new AgreementsController($conn); // Inicjalizacja kontrolera umów
     $buildingsController = new BuildingsController($conn); // Inicjalizacja kontrolera budynków
     $apartmentsController = new ApartmentsController($conn); // Inicjalizacja kontrolera mieszkań
+    $tenantsController = new TenantsController($conn); // Inicjalizacja kontrolera najemców
 
     // Obsługa akcji (np. zapis danych do bazy)
     try {
@@ -59,6 +61,9 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
                 case 'save_apartment':
                     $apartmentsController->saveApartment($_POST); // Zapis nowego mieszkania
                     break;
+                    case 'save_tenant':
+                $tenantsController->saveTenant($_POST); // Zapis nowego najemcy
+                break;
                 default:
                     throw new Exception("Nieznana akcja: $action"); // Obsługa nieznanej akcji
             }
@@ -82,6 +87,12 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
                     break;
                 case 'add_apartment':
                     $apartmentsController->addApartmentView(); // Formularz dodawania nowego mieszkania
+                    break;
+                case 'tenants':
+                    $tenantsController->listTenants(); // Wyświetlenie listy najemców
+                    break;
+                case 'add_tenant':
+                    $tenantsController->addTenantView(); // Formularz dodawania nowego najemcy
                     break;
                 default:
                     include 'views/home.php'; // Widok domyślny (np. strona główna)
