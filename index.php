@@ -36,6 +36,7 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
     require_once 'controllers/apartmentsController.php'; // Kontroler obsługujący mieszkania
     require_once 'controllers/tenantsController.php'; // Kontroler obsługujący najemców
     require_once 'controllers/ownersController.php'; // Kontroler obsługujący właścicieli
+    require_once 'controllers/paymentsController.php'; // Kontroler obsługujący płatności
 
     // Obsługa routingu:
     // Pobranie wartości `view` (widok) i `action` (akcja) z URL
@@ -48,6 +49,7 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
     $apartmentsController = new ApartmentsController($conn); // Inicjalizacja kontrolera mieszkań
     $tenantsController = new TenantsController($conn); // Inicjalizacja kontrolera najemców
     $ownersController = new OwnersController($conn); // Inicjalizacja kontrolera właścicieli
+    $paymentsController = new PaymentsController($conn); // Inicjalizacja kontrolera płatności
 
     // Obsługa akcji (np. zapis danych do bazy)
     try {
@@ -68,6 +70,9 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
                     break;
                 case 'save_owner':
                     $ownersController->saveOwner($_POST); // Zapis nowego właściciela
+                    break;
+                case 'save_payment':
+                    $paymentsController->savePayment($_POST); // Zapis nowej płatności
                     break;
                 default:
                     throw new Exception("Nieznana akcja: $action"); // Obsługa nieznanej akcji
@@ -104,6 +109,12 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
                     break;
                 case 'add_owner':
                     $ownersController->addOwnerView(); // Formularz dodawania nowego właściciela
+                    break;
+                case 'payments':
+                    $paymentsController->listPayments(); // Wyświetlenie listy płatności
+                    break;
+                case 'add_payment':
+                    $paymentsController->addPaymentView(); // Formularz dodawania nowej płatności
                     break;
                 default:
                     include 'views/home.php'; // Widok domyślny (np. strona główna)
