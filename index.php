@@ -38,6 +38,7 @@ ob_start(); // Włączenie buforowania wyjścia
     require_once 'controllers/ownersController.php';
     require_once 'controllers/paymentsController.php';
     require_once 'controllers/mediaController.php';
+    require_once 'controllers/maintenanceController.php'; // Nowy kontroler
 
     // Obsługa routingu
     $view = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'home';
@@ -51,6 +52,7 @@ ob_start(); // Włączenie buforowania wyjścia
     $ownersController = new OwnersController($conn);
     $paymentsController = new PaymentsController($conn);
     $mediaController = new MediaController($conn);
+    $maintenanceController = new MaintenanceController($conn); // Inicjalizacja nowego kontrolera
 
     // Obsługa akcji i widoków
     try {
@@ -77,6 +79,9 @@ ob_start(); // Włączenie buforowania wyjścia
                     break;
                 case 'save_media_usage':
                     $mediaController->saveMediaUsage($_POST);
+                    break;
+                case 'save_maintenance': // Obsługa zapisu zgłoszenia serwisowego
+                    $maintenanceController->saveMaintenance($_POST);
                     break;
                 default:
                     throw new Exception("Nieznana akcja: $action");
@@ -125,6 +130,12 @@ ob_start(); // Włączenie buforowania wyjścia
                     break;
                 case 'add_media_usage':
                     $mediaController->addMediaUsageView();
+                    break;
+                case 'maintenance': // Widok listy zgłoszeń serwisowych
+                    $maintenanceController->listMaintenance();
+                    break;
+                case 'add_maintenance': // Widok formularza dodawania zgłoszenia
+                    $maintenanceController->addMaintenanceView();
                     break;
                 default:
                     include 'views/home.php';
