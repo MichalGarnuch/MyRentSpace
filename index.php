@@ -38,7 +38,8 @@ ob_start(); // Włączenie buforowania wyjścia
     require_once 'controllers/ownersController.php';
     require_once 'controllers/paymentsController.php';
     require_once 'controllers/mediaController.php';
-    require_once 'controllers/maintenanceController.php'; // Nowy kontroler
+    require_once 'controllers/maintenanceController.php';
+    require_once 'controllers/notificationsController.php'; // Dodano kontroler powiadomień
 
     // Obsługa routingu
     $view = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'home';
@@ -52,7 +53,8 @@ ob_start(); // Włączenie buforowania wyjścia
     $ownersController = new OwnersController($conn);
     $paymentsController = new PaymentsController($conn);
     $mediaController = new MediaController($conn);
-    $maintenanceController = new MaintenanceController($conn); // Inicjalizacja nowego kontrolera
+    $maintenanceController = new MaintenanceController($conn);
+    $notificationsController = new NotificationsController($conn); // Inicjalizacja kontrolera powiadomień
 
     // Obsługa akcji i widoków
     try {
@@ -80,8 +82,11 @@ ob_start(); // Włączenie buforowania wyjścia
                 case 'save_media_usage':
                     $mediaController->saveMediaUsage($_POST);
                     break;
-                case 'save_maintenance': // Obsługa zapisu zgłoszenia serwisowego
+                case 'save_maintenance':
                     $maintenanceController->saveMaintenance($_POST);
+                    break;
+                case 'save_notification': // Obsługa zapisu powiadomienia
+                    $notificationsController->saveNotification($_POST);
                     break;
                 default:
                     throw new Exception("Nieznana akcja: $action");
@@ -131,11 +136,17 @@ ob_start(); // Włączenie buforowania wyjścia
                 case 'add_media_usage':
                     $mediaController->addMediaUsageView();
                     break;
-                case 'maintenance': // Widok listy zgłoszeń serwisowych
+                case 'maintenance':
                     $maintenanceController->listMaintenance();
                     break;
-                case 'add_maintenance': // Widok formularza dodawania zgłoszenia
+                case 'add_maintenance':
                     $maintenanceController->addMaintenanceView();
+                    break;
+                case 'notifications': // Widok listy powiadomień
+                    $notificationsController->listNotifications();
+                    break;
+                case 'add_notification': // Widok formularza dodawania powiadomienia
+                    $notificationsController->addNotificationView();
                     break;
                 default:
                     include 'views/home.php';
