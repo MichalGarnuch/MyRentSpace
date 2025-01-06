@@ -109,4 +109,24 @@ class ApartmentsModel {
             throw new Exception("Błąd zapytania SQL: " . $this->db->error);
         }
     }
+    public function getAllApartments() {
+        $query = "
+        SELECT 
+            a.id, 
+            a.apartment_number, 
+            CONCAT(b.street, ' ', b.building_number, ', ', l.city) AS full_address
+        FROM apartments a
+        JOIN buildings b ON a.building_id = b.id
+        JOIN locations l ON b.location_id = l.id
+        ORDER BY a.apartment_number ASC
+    ";
+        $result = $this->db->query($query);
+
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            throw new Exception("Błąd zapytania SQL: " . $this->db->error);
+        }
+    }
+
 }

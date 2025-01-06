@@ -1,22 +1,22 @@
 <?php
-ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych przed funkcją header().
+ob_start(); // Włączenie buforowania wyjścia
 ?>
 
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <!-- Metadane strony -->
-    <meta charset="UTF-8"> <!-- Kodowanie znaków -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Skalowanie dla urządzeń mobilnych -->
-    <title>MyRentSpace</title> <!-- Tytuł strony -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyRentSpace</title>
 
     <!-- Łączenie stylów Bootstrap i własnych -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
-    <link href="assets/custom.css" rel="stylesheet"> <!-- Własny plik CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/custom.css" rel="stylesheet">
 
     <!-- Łączenie skryptów Bootstrap i własnych -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
-    <script src="assets/custom.js"></script> <!-- Własny plik JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/custom.js"></script>
 </head>
 <body>
 <?php include 'partials/header.php'; ?> <!-- Włączenie nagłówka strony -->
@@ -24,104 +24,113 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
 
 <div class="container mt-4">
     <?php
-    // Ustawienia debugowania (pokazywanie błędów na stronie)
-    ini_set('display_errors', 1); // Włączanie wyświetlania błędów
-    ini_set('display_startup_errors', 1); // Włączanie błędów startowych
-    error_reporting(E_ALL); // Wyświetlanie wszystkich poziomów błędów
+    // Ustawienia debugowania
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
     // Wczytywanie połączenia z bazą danych oraz kontrolerów
-    require_once 'config/db.php'; // Łączenie z bazą danych
-    require_once 'controllers/agreementsController.php'; // Kontroler obsługujący umowy najmu
-    require_once 'controllers/buildingsController.php'; // Kontroler obsługujący budynki
-    require_once 'controllers/apartmentsController.php'; // Kontroler obsługujący mieszkania
-    require_once 'controllers/tenantsController.php'; // Kontroler obsługujący najemców
-    require_once 'controllers/ownersController.php'; // Kontroler obsługujący właścicieli
-    require_once 'controllers/paymentsController.php'; // Kontroler obsługujący płatności
+    require_once 'config/db.php';
+    require_once 'controllers/agreementsController.php';
+    require_once 'controllers/buildingsController.php';
+    require_once 'controllers/apartmentsController.php';
+    require_once 'controllers/tenantsController.php';
+    require_once 'controllers/ownersController.php';
+    require_once 'controllers/paymentsController.php';
+    require_once 'controllers/mediaController.php';
 
-    // Obsługa routingu:
-    // Pobranie wartości `view` (widok) i `action` (akcja) z URL
-    $view = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'home'; // Widok domyślny to "home"
-    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS); // Akcja (np. zapis danych)
+    // Obsługa routingu
+    $view = filter_input(INPUT_GET, 'view', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'home';
+    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS);
 
     // Inicjalizacja kontrolerów
-    $agreementsController = new AgreementsController($conn); // Inicjalizacja kontrolera umów
-    $buildingsController = new BuildingsController($conn); // Inicjalizacja kontrolera budynków
-    $apartmentsController = new ApartmentsController($conn); // Inicjalizacja kontrolera mieszkań
-    $tenantsController = new TenantsController($conn); // Inicjalizacja kontrolera najemców
-    $ownersController = new OwnersController($conn); // Inicjalizacja kontrolera właścicieli
-    $paymentsController = new PaymentsController($conn); // Inicjalizacja kontrolera płatności
+    $agreementsController = new AgreementsController($conn);
+    $buildingsController = new BuildingsController($conn);
+    $apartmentsController = new ApartmentsController($conn);
+    $tenantsController = new TenantsController($conn);
+    $ownersController = new OwnersController($conn);
+    $paymentsController = new PaymentsController($conn);
+    $mediaController = new MediaController($conn);
 
-    // Obsługa akcji (np. zapis danych do bazy)
+    // Obsługa akcji i widoków
     try {
         if ($action) {
-            // Sprawdzanie, jaka akcja została wywołana
+            // Obsługa akcji
             switch ($action) {
                 case 'save_agreement':
-                    $agreementsController->saveAgreement($_POST); // Zapis nowej umowy
+                    $agreementsController->saveAgreement($_POST);
                     break;
                 case 'save_building':
-                    $buildingsController->saveBuilding($_POST); // Zapis nowego budynku
+                    $buildingsController->saveBuilding($_POST);
                     break;
                 case 'save_apartment':
-                    $apartmentsController->saveApartment($_POST); // Zapis nowego mieszkania
+                    $apartmentsController->saveApartment($_POST);
                     break;
-                    case 'save_tenant':
-                $tenantsController->saveTenant($_POST); // Zapis nowego najemcy
+                case 'save_tenant':
+                    $tenantsController->saveTenant($_POST);
                     break;
                 case 'save_owner':
-                    $ownersController->saveOwner($_POST); // Zapis nowego właściciela
+                    $ownersController->saveOwner($_POST);
                     break;
                 case 'save_payment':
-                    $paymentsController->savePayment($_POST); // Zapis nowej płatności
+                    $paymentsController->savePayment($_POST);
+                    break;
+                case 'save_media_usage':
+                    $mediaController->saveMediaUsage($_POST);
                     break;
                 default:
-                    throw new Exception("Nieznana akcja: $action"); // Obsługa nieznanej akcji
+                    throw new Exception("Nieznana akcja: $action");
             }
         } else {
-            // Obsługa widoków (np. lista budynków, formularz dodawania)
+            // Obsługa widoków
             switch ($view) {
                 case 'agreements':
-                    $agreementsController->listAgreements(); // Wyświetlenie listy umów najmu
+                    $agreementsController->listAgreements();
                     break;
                 case 'add_agreement':
-                    $agreementsController->addAgreementView(); // Formularz dodawania nowej umowy najmu
+                    $agreementsController->addAgreementView();
                     break;
                 case 'buildings':
-                    $buildingsController->listBuildings(); // Wyświetlenie listy budynków
+                    $buildingsController->listBuildings();
                     break;
                 case 'add_building':
-                    $buildingsController->addBuildingView(); // Formularz dodawania nowego budynku
+                    $buildingsController->addBuildingView();
                     break;
                 case 'apartments':
-                    $apartmentsController->listApartments(); // Wyświetlenie listy mieszkań
+                    $apartmentsController->listApartments();
                     break;
                 case 'add_apartment':
-                    $apartmentsController->addApartmentView(); // Formularz dodawania nowego mieszkania
+                    $apartmentsController->addApartmentView();
                     break;
                 case 'tenants':
-                    $tenantsController->listTenants(); // Wyświetlenie listy najemców
+                    $tenantsController->listTenants();
                     break;
                 case 'add_tenant':
-                    $tenantsController->addTenantView(); // Formularz dodawania nowego najemcy
+                    $tenantsController->addTenantView();
                     break;
                 case 'owners':
-                    $ownersController->listOwners(); // Wyświetlenie listy właścicieli
+                    $ownersController->listOwners();
                     break;
                 case 'add_owner':
-                    $ownersController->addOwnerView(); // Formularz dodawania nowego właściciela
+                    $ownersController->addOwnerView();
                     break;
                 case 'payments':
-                    $paymentsController->listPayments(); // Wyświetlenie listy płatności
+                    $paymentsController->listPayments();
                     break;
                 case 'add_payment':
-                    $paymentsController->addPaymentView(); // Formularz dodawania nowej płatności
+                    $paymentsController->addPaymentView();
+                    break;
+                case 'media':
+                    $mediaController->listMediaUsage();
+                    break;
+                case 'add_media_usage':
+                    $mediaController->addMediaUsageView();
                     break;
                 default:
-                    include 'views/home.php'; // Widok domyślny (np. strona główna)
+                    include 'views/home.php';
             }
         }
     } catch (Exception $e) {
-        // Wyświetlanie błędu w przypadku wyjątku
         echo "<div class='alert alert-danger'>Błąd: " . htmlspecialchars($e->getMessage()) . "</div>";
     }
     ?>
@@ -132,5 +141,5 @@ ob_start(); // Włączenie buforowania wyjścia, aby zapobiec wysyłaniu danych 
 </body>
 </html>
 <?php
-ob_end_flush(); // Wysłanie buforowanej zawartości do przeglądarki (koniec buforowania)
+ob_end_flush(); // Wysłanie buforowanej zawartości
 ?>
