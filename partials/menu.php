@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../helpers/functions.php';
+?>
+
 <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">

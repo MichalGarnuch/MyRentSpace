@@ -1,3 +1,12 @@
+<?php
+require_once 'helpers/functions.php';
+
+// Jeśli użytkownik nie może dodawać danych → przekieruj go na stronę główną
+if (!canAddData()) {
+    header("Location: index.php?error=Brak uprawnień");
+    exit();
+}
+?>
 <div class="container mt-4">
     <h1 class="mb-4">Dodaj Najemcę</h1>
 
@@ -41,7 +50,9 @@
         </div>
 
         <!-- Przycisk do przesłania formularza -->
-        <button type="submit" class="btn btn-success">Dodaj</button>
+        <?php if (canAddData()): ?>
+        <button type="submit" class="btn btn-success">Dodaj</button
+        <?php endif; ?>
     </form>
 </div>
 

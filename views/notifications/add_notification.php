@@ -1,3 +1,12 @@
+<?php
+require_once 'helpers/functions.php';
+
+// Jeśli użytkownik nie może dodawać danych → przekieruj go na stronę główną
+if (!canAddData()) {
+    header("Location: index.php?error=Brak uprawnień");
+    exit();
+}
+?>
 <div class="container mt-4"> <!-- Główny kontener formularza dodawania powiadomienia -->
     <h1 class="mb-4">Dodaj Powiadomienie</h1> <!-- Nagłówek strony -->
 

@@ -1,7 +1,12 @@
+<?php
+require_once __DIR__ . '/../helpers/functions.php';
+?>
+
 <header class="d-flex justify-content-between align-items-center p-3 bg-light">
     <h1 class="h4">MyRentSpace</h1>
 
     <nav>
+        <?php if (isLoggedIn()): ?>
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 Dodaj nowe dane
@@ -18,6 +23,7 @@
                 <li><a class="dropdown-item" href="index.php?view=add_notification">Dodaj powiadomienie</a></li>
             </ul>
         </div>
+        <?php endif; ?>
     </nav>
 
     <!-- Dynamiczne przyciski -->
