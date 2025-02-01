@@ -1,4 +1,33 @@
 <?php
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
+
+
+<?php
+if (isset($_GET['success']) && $_GET['success'] == 1) {
+    echo '<div class="alert alert-success text-center" id="login-success" role="alert">
+            ✅ Zalogowano pomyślnie!
+          </div>';
+}
+?>
+<?php
+if (isset($_GET['logout'])) {
+    echo '<div class="alert alert-info text-center" id="logout-message">
+            ℹ️ Wylogowano pomyślnie
+          </div>';
+}
+?>
+
+<script>
+    setTimeout(() => {
+        const alert = document.getElementById('login-success');
+        if (alert) alert.style.display = 'none';
+    }, 5000);
+</script>
+
+<?php
 ob_start(); // Włączenie buforowania wyjścia
 ?>
 
