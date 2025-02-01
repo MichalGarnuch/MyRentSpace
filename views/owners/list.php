@@ -36,12 +36,3 @@
         </tbody>
     </table>
 </div>
-
-<!--
-Komentarze kluczowe:
-- Plik generuje listę właścicieli nieruchomości na podstawie danych z tablicy $owners.
-- Dane są iterowane w pętli foreach, gdzie każdy wiersz reprezentuje jednego właściciela.
-- Wyświetlane dane obejmują: ID, imię, nazwisko, numer telefonu, adres e-mail oraz procent prowizji.
-- W przypadku braku danych w tablicy wyświetlany jest komunikat "Brak właścicieli do wyświetlenia".
-- Kod stosuje funkcję htmlspecialchars() dla zabezpieczenia przed atakami XSS.
--->

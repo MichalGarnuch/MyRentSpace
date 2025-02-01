@@ -1,0 +1,91 @@
+/* ====== Globalne ustawienia ====== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Ustawienie tła na całej stronie */
+html, body {
+    height: 100%; /* Cała wysokość okna */
+    background: url('assets/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+/* Warstwa przyciemnienia dla całej strony */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Możesz zmieniać poziom przyciemnienia */
+    z-index: -1;
+}
+
+/* ====== Nagłówek i stopka ====== */
+header, .navbar, footer {
+    background: rgba(255, 255, 255, 0.2); /* Półprzezroczystość */
+    backdrop-filter: blur(8px); /* Efekt szklanej tafli */
+    width: 100%;
+}
+
+/* Stopka na dole strony */
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2); /* Dopasowanie do reszty UI */
+    backdrop-filter: blur(8px);
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* ====== Elementy strony ====== */
+.container, .modal-content {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Modale */
+.modal-content {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+}
+
+/* ====== Przyciski ====== */
+.btn {
+    border-radius: 5px;
+}
+
+/* ====== Logo ====== */
+.logo {
+    width: 120px;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ====== Kontener na treść ====== */
+.container-fluid {
+    height: 100vh; /* Upewnij się, że kontener zajmuje całą wysokość okna */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* ====== Tło strony home ====== */
+.container-fluid {
+    background: url('assets/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh; /* Upewnij się, że tło obejmuje całą wysokość */
+}

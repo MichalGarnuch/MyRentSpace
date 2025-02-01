@@ -49,7 +49,7 @@ if (!canAddData()) {
                 <option value="">Wybierz budynek</option>
                 <?php foreach ($buildings as $building): ?>
                     <option value="<?= htmlspecialchars($building['id']) ?>" data-location-id="<?= htmlspecialchars($building['location_id']) ?>">
-                    <?= htmlspecialchars($building['full_address']) ?>
+                        <?= htmlspecialchars($building['full_address']) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -166,47 +166,3 @@ if (!canAddData()) {
         filterBuildings(); // Filtruj budynki przy ładowaniu strony
         lockBuildingFields(); // Sprawdź blokadę pól budynku przy ładowaniu strony
         lockLocationFields(); // Sprawdź blokadę pól lokalizacji przy ładowaniu strony
-    });
-</script>
-<script>
-    // Funkcja toggleNewLocationFields: Włącza/wyłącza pola "Nowa miejscowość" i "Kod pocztowy"
-    // w zależności od tego, czy użytkownik wybrał istniejącą miejscowość z listy.
-    function toggleNewLocationFields() {
-        const locationSelect = document.getElementById('location_id');
-        const newCityField = document.getElementById('new_city');
-        const newPostalCodeField = document.getElementById('new_postal_code');
-
-        // Jeśli wybrano istniejącą miejscowość, wyłącz pola do wpisania nowej miejscowości i kodu pocztowego
-        if (locationSelect.value) {
-            newCityField.disabled = true;
-            newPostalCodeField.disabled = true;
-            newCityField.value = '';
-            newPostalCodeField.value = '';
-        } else {
-            // Jeśli nie wybrano miejscowości, włącz pola do wpisania nowej miejscowości i kodu pocztowego
-            newCityField.disabled = false;
-            newPostalCodeField.disabled = false;
-        }
-    }
-    function toggleNewBuildingFields() {
-        const buildingSelect = document.getElementById('building_id');
-        const newStreetField = document.getElementById('new_street');
-        const newBuildingNumberField = document.getElementById('new_building_number');
-
-        if (buildingSelect.value) {
-            newStreetField.disabled = true;
-            newBuildingNumberField.disabled = true;
-            newStreetField.value = '';
-            newBuildingNumberField.value = '';
-        } else {
-            newStreetField.disabled = false;
-            newBuildingNumberField.disabled = false;
-        }
-    }
-
-    // Uruchom funkcję podczas ładowania strony, aby ustawić stan pól zgodnie z wybranym elementem
-    document.addEventListener('DOMContentLoaded', () => {
-        toggleNewLocationFields();
-        toggleNewBuildingFields();
-    });
-</script>

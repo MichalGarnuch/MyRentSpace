@@ -1,7 +1,7 @@
 <?php
 require_once 'helpers/functions.php';
 
-// Jeśli użytkownik nie może dodawać danych → przekieruj go na stronę główną
+// Jeśli użytkownik nie ma uprawnień do dodawania danych → przekieruj go na stronę główną
 if (!canAddData()) {
     header("Location: index.php?error=Brak uprawnień");
     exit();

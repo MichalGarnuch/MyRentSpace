@@ -12,12 +12,10 @@ if (!canAddData()) {
 
     <!-- Sekcja komunikatów: Wyświetla komunikaty o sukcesie lub błędzie -->
     <?php if (isset($_GET['success']) && $_GET['success'] === 'building_added'): ?>
-        <!-- Jeśli budynek został dodany pomyślnie, pokaż komunikat sukcesu -->
         <div class="alert alert-success">
             Nowy budynek został dodany pomyślnie!
         </div>
     <?php elseif (isset($_GET['error'])): ?>
-        <!-- Jeśli wystąpił błąd, pokaż komunikat błędu -->
         <div class="alert alert-danger">
             <?= htmlspecialchars($_GET['error']) ?>
         </div>

@@ -1,7 +1,7 @@
 <?php
 require_once 'helpers/functions.php';
 
-// Jeśli użytkownik nie może dodawać danych → przekieruj go na stronę główną
+// Jeśli użytkownik nie ma uprawnień do dodawania danych, przekieruj go na stronę główną
 if (!canAddData()) {
     header("Location: index.php?error=Brak uprawnień");
     exit();
@@ -12,78 +12,166 @@ if (!canAddData()) {
 
     <!-- Sekcja komunikatów: Wyświetla komunikaty o sukcesie lub błędzie -->
     <?php if (isset($_GET['success']) && $_GET['success'] === 'agreement_added'): ?>
-        <!-- Jeśli umowa została dodana pomyślnie, pokaż komunikat sukcesu -->
         <div class="alert alert-success">
             Nowa umowa najmu została dodana pomyślnie!
         </div>
     <?php elseif (isset($_GET['error'])): ?>
-        <!-- Jeśli wystąpił błąd, pokaż komunikat błędu -->
-        <div class="alert alert-danger">
-            <?= htmlspecialchars($_GET['error']) ?>
-        </div>
+        <div class="alert alert-danger"><?= htmlspecialchars($_GET['error']) ?></div>
     <?php endif; ?>
 
     <!-- Formularz dodawania umowy najmu -->
     <form method="POST" action="index.php?action=save_agreement">
-        <!-- Pole wyboru mieszkania -->
+        <!-- Wybór lub dodanie lokalizacji -->
         <div class="mb-3">
-            <label for="apartment_id" class="form-label">Mieszkanie:</label>
-            <select class="form-control" id="apartment_id" name="apartment_id" required>
-                <option value="">Wybierz mieszkanie</option>
-                <!-- Iteracja przez tablicę $apartments, aby wyświetlić dostępne mieszkania -->
-                <?php foreach ($apartments as $apartment): ?>
-                    <option value="<?= htmlspecialchars($apartment['id']) ?>">
-                        <?= htmlspecialchars("Numer: " . $apartment['apartment_number']) ?>
+            <label for="location_id" class="form-label">Miejscowość:</label>
+            <select class="form-control" id="location_id" name="location_id" onchange="filterBuildings()">
+                <option value="">Wybierz miejscowość</option>
+                <!-- Iteracja przez tablicę $locations, aby wyświetlić dostępne miejscowości -->
+                <?php foreach ($locations as $location): ?>
+                    <option value="<?= htmlspecialchars($location['id']) ?>">
+                        <?= htmlspecialchars($location['city'] . ' (' . $location['postal_code'] . ')') ?>
                     </option>
                 <?php endforeach; ?>
             </select>
+            <small class="form-text text-muted">Wybierz z listy lub wpisz nową miejscowość poniżej.</small>
+        </div>
+        <div class="mb-3">
+            <label for="new_city" class="form-label">Nowa miejscowość:</label>
+            <input type="text" class="form-control" id="new_city" name="new_city" placeholder="Wpisz nazwę miejscowości">
+        </div>
+        <div class="mb-3">
+            <label for="new_postal_code" class="form-label">Kod pocztowy:</label>
+            <input type="text" class="form-control" id="new_postal_code" name="new_postal_code" placeholder="Wpisz kod pocztowy">
         </div>
 
-        <!-- Pole wyboru najemcy -->
+        <!-- Wybór lub dodanie budynku -->
         <div class="mb-3">
-            <label for="tenant_id" class="form-label">Najemca:</label>
-            <select class="form-control" id="tenant_id" name="tenant_id" required>
-                <option value="">Wybierz najemcę</option>
-                <!-- Iteracja przez tablicę $tenants, aby wyświetlić dostępnych najemców -->
-                <?php foreach ($tenants as $tenant): ?>
-                    <option value="<?= htmlspecialchars($tenant['id']) ?>">
-                        <?= htmlspecialchars($tenant['full_name']) ?>
+            <label for="building_id" class="form-label">Budynek:</label>
+            <select class="form-control" id="building_id" name="building_id" onchange="lockBuildingFields()">
+                <option value="">Wybierz budynek</option>
+                <!-- Iteracja przez tablicę $buildings, aby wyświetlić dostępne budynki -->
+                <?php foreach ($buildings as $building): ?>
+                    <option value="<?= htmlspecialchars($building['id']) ?>" data-location-id="<?= htmlspecialchars($building['location_id']) ?>">
+                        <?= htmlspecialchars($building['full_address']) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
+            <small class="form-text text-muted">Wybierz z listy lub wpisz nowy budynek poniżej.</small>
         </div>
-        <!-- Pole wyboru właściciela -->
         <div class="mb-3">
-            <label for="owner_id" class="form-label">Właściciel:</label>
-            <select class="form-control" id="owner_id" name="owner_id" required>
-                <option value="">Wybierz właściciela</option>
-                <?php foreach ($owners as $owner): ?>
-                    <option value="<?= htmlspecialchars($owner['id']) ?>">
-                        <?= htmlspecialchars($owner['first_name'] . ' ' . $owner['last_name']) ?>
-                    </option>
-                <?php endforeach; ?>
+            <label for="new_street" class="form-label">Ulica:</label>
+            <input type="text" class="form-control" id="new_street" name="new_street" placeholder="Wpisz nazwę ulicy">
+        </div>
+        <div class="mb-3">
+            <label for="new_building_number" class="form-label">Numer Budynku:</label>
+            <input type="text" class="form-control" id="new_building_number" name="new_building_number" placeholder="Wpisz numer budynku">
+        </div>
+
+        <!-- Pole do wpisania numeru mieszkania -->
+        <div class="mb-3">
+            <label for="apartment_number" class="form-label">Numer Mieszkania:</label>
+            <input type="text" class="form-control" id="apartment_number" name="apartment_number" placeholder="Podaj numer mieszkania" required>
+        </div>
+
+        <!-- Pole do wpisania numeru piętra -->
+        <div class="mb-3">
+            <label for="floor_number" class="form-label">Numer Piętra:</label>
+            <input type="number" class="form-control" id="floor_number" name="floor_number" placeholder="Podaj numer piętra" required>
+        </div>
+
+        <!-- Pole do wpisania powierzchni mieszkania -->
+        <div class="mb-3">
+            <label for="size_sqm" class="form-label">Powierzchnia (m²):</label>
+            <input type="number" class="form-control" id="size_sqm" name="size_sqm" placeholder="Podaj powierzchnię w m²" required>
+        </div>
+
+        <!-- Pole do wyboru statusu mieszkania -->
+        <div class="mb-3">
+            <label for="status" class="form-label">Status:</label>
+            <select class="form-select" id="status" name="status" required>
+                <option value="available">Dostępne</option>
+                <option value="rented">Wynajęte</option>
+                <option value="maintenance">W trakcie naprawy</option>
             </select>
-        </div>
-
-        <!-- Pole do wpisania daty rozpoczęcia umowy -->
-        <div class="mb-3">
-            <label for="start_date" class="form-label">Data Rozpoczęcia:</label>
-            <input type="date" class="form-control" id="start_date" name="start_date" required>
-        </div>
-
-        <!-- Pole do wpisania daty zakończenia umowy -->
-        <div class="mb-3">
-            <label for="end_date" class="form-label">Data Zakończenia:</label>
-            <input type="date" class="form-control" id="end_date" name="end_date" required>
-        </div>
-
-        <!-- Pole do wpisania kwoty najmu -->
-        <div class="mb-3">
-            <label for="rent_amount" class="form-label">Kwota Najmu (PLN):</label>
-            <input type="number" step="0.01" class="form-control" id="rent_amount" name="rent_amount" placeholder="Podaj kwotę najmu" required>
         </div>
 
         <!-- Przycisk do przesłania formularza -->
-        <button type="submit" class="btn btn-success">Dodaj Umowę</button>
+        <button type="submit" class="btn btn-success">Dodaj Mieszkanie</button>
     </form>
 </div>
+
+<script>
+    // Filtruje budynki w zależności od wybranej miejscowości
+    function filterBuildings() {
+        const locationId = document.getElementById('location_id').value;
+        const buildingSelect = document.getElementById('building_id');
+        const buildingOptions = buildingSelect.querySelectorAll('option');
+
+        // Jeśli nie wybrano miejscowości, pokaż wszystkie budynki
+        if (!locationId) {
+            buildingOptions.forEach(option => {
+                option.style.display = ''; // Pokaż wszystkie budynki
+            });
+            lockLocationFields(); // Sprawdź blokadę dla lokalizacji
+            return;
+        }
+
+        // Filtruj budynki na podstawie `data-location-id`
+        buildingOptions.forEach(option => {
+            const optionLocationId = option.dataset.locationId;
+            if (optionLocationId && optionLocationId !== locationId) {
+                option.style.display = 'none'; // Ukryj budynki z inną lokalizacją
+            } else {
+                option.style.display = ''; // Pokaż budynki z wybraną lokalizacją
+            }
+        });
+
+        buildingSelect.value = ''; // Reset wyboru budynku
+        lockLocationFields(); // Sprawdź blokadę dla lokalizacji
+    }
+
+    // Zabezpiecza pola lokalizacji i budynków
+    function lockLocationFields() {
+        const locationSelect = document.getElementById('location_id');
+        const newCityField = document.getElementById('new_city');
+        const newPostalCodeField = document.getElementById('new_postal_code');
+
+        if (locationSelect.value) {
+            // Zablokuj pola nowej lokalizacji, jeśli wybrano istniejącą lokalizację
+            newCityField.disabled = true;
+            newPostalCodeField.disabled = true;
+            newCityField.value = ''; // Wyczyść pole "Nowa miejscowość"
+            newPostalCodeField.value = ''; // Wyczyść pole "Kod pocztowy"
+        } else {
+            // Odblokuj pola nowej lokalizacji, jeśli nie wybrano istniejącej lokalizacji
+            newCityField.disabled = false;
+            newPostalCodeField.disabled = false;
+        }
+    }
+
+    // Zabezpiecza pola budynku, jeśli wybrano istniejący budynek
+    function lockBuildingFields() {
+        const buildingSelect = document.getElementById('building_id');
+        const selectedBuilding = buildingSelect.options[buildingSelect.selectedIndex];
+        const newStreetField = document.getElementById('new_street');
+        const newBuildingNumberField = document.getElementById('new_building_number');
+
+        if (selectedBuilding && selectedBuilding.value) {
+            // Zablokuj pola nowego budynku, jeśli wybrano istniejący budynek
+            newStreetField.disabled = true;
+            newBuildingNumberField.disabled = true;
+            newStreetField.value = ''; // Wyczyść pole "Ulica"
+            newBuildingNumberField.value = ''; // Wyczyść pole "Numer budynku"
+        } else {
+            // Odblokuj pola nowego budynku, jeśli nie wybrano istniejącego budynku
+            newStreetField.disabled = false;
+            newBuildingNumberField.disabled = false;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        filterBuildings(); // Filtruj budynki przy ładowaniu strony
+        lockBuildingFields(); // Sprawdź blokadę pól budynku przy ładowaniu strony
+        lockLocationFields(); // Sprawdź blokadę pól lokalizacji przy ładowaniu strony
+    });
+</script>

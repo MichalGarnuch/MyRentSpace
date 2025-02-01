@@ -12,7 +12,7 @@
             <th>Powierzchnia (m²)</th> <!-- Powierzchnia mieszkania w m² -->
             <th>Status</th> <!-- Status mieszkania -->
             <th>Budynek</th> <!-- Adres budynku -->
-            <th>Miejscowość</th>
+            <th>Miejscowość</th> <!-- Miejscowość i kod pocztowy -->
         </tr>
         </thead>
         <tbody>
@@ -28,13 +28,13 @@
                     <td><?= htmlspecialchars($apartment['size_sqm'] ?? '-') ?> m²</td> <!-- Powierzchnia mieszkania -->
                     <td><?= htmlspecialchars($apartment['status'] ?? '-') ?></td> <!-- Status mieszkania -->
                     <td><?= htmlspecialchars($apartment['street'] ?? '-') ?> <?= htmlspecialchars($apartment['building_number'] ?? '-') ?></td> <!-- Adres budynku -->
-                    <td><?= htmlspecialchars($apartment['city'] ?? '-') ?> (<?= htmlspecialchars($apartment['postal_code'] ?? '-') ?>)</td>
+                    <td><?= htmlspecialchars($apartment['city'] ?? '-') ?> (<?= htmlspecialchars($apartment['postal_code'] ?? '-') ?>)</td> <!-- Miejscowość -->
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
             <!-- Jeśli brak danych w $apartments -->
             <tr>
-                <td colspan="6" class="text-center">Brak danych</td> <!-- Komunikat o braku danych -->
+                <td colspan="7" class="text-center">Brak danych</td> <!-- Komunikat o braku danych -->
             </tr>
         <?php endif; ?>
         </tbody>

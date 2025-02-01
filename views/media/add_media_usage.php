@@ -1,21 +1,23 @@
 <?php
 require_once 'helpers/functions.php';
 
-// Jeśli użytkownik nie może dodawać danych → przekieruj go na stronę główną
+// Jeśli użytkownik nie ma uprawnień do dodawania danych, przekieruj go na stronę główną
 if (!canAddData()) {
     header("Location: index.php?error=Brak uprawnień");
     exit();
 }
 ?>
 <div class="container mt-4">
-    <h1 class="mb-4">Dodaj Zużycie Mediów</h1>
-    <!-- Sekcja komunikatów -->
+    <h1 class="mb-4">Dodaj Zużycie Mediów</h1> <!-- Nagłówek strony -->
+
+    <!-- Sekcja komunikatów: Wyświetla komunikaty o sukcesie lub błędzie -->
     <?php if (isset($_GET['success']) && $_GET['success'] === 'media_usage_added'): ?>
         <div class="alert alert-success">Nowy odczyt zużycia mediów został dodany pomyślnie!</div>
     <?php elseif (isset($_GET['error'])): ?>
         <div class="alert alert-danger"><?= htmlspecialchars($_GET['error']) ?></div>
     <?php endif; ?>
 
+    <!-- Formularz dodawania zużycia mediów -->
     <form method="POST" action="index.php?action=save_media_usage">
         <!-- Pole wyboru mieszkania -->
         <div class="mb-3">
@@ -78,6 +80,7 @@ if (!canAddData()) {
 </div>
 
 <script>
+    // Funkcja ładowania umów najmu na podstawie wybranego mieszkania
     function loadRentalAgreements() {
         const apartmentId = document.getElementById('apartment_id').value;
         const rentalAgreementSelect = document.getElementById('rental_agreement_id');

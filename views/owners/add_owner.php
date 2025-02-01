@@ -1,23 +1,24 @@
 <?php
-require_once 'helpers/functions.php';
+require_once 'helpers/functions.php'; // Załadowanie funkcji pomocniczych
 
-// Jeśli użytkownik nie może dodawać danych → przekieruj go na stronę główną
+// Sprawdzenie, czy użytkownik ma uprawnienia do dodawania danych
 if (!canAddData()) {
-    header("Location: index.php?error=Brak uprawnień");
+    header("Location: index.php?error=Brak uprawnień"); // Przekierowanie w przypadku braku uprawnień
     exit();
 }
 ?>
-<div class="container mt-4">
-    <h1 class="mb-4">Dodaj Właściciela</h1>
+
+<div class="container mt-4"> <!-- Główny kontener formularza -->
+    <h1 class="mb-4">Dodaj Właściciela</h1> <!-- Nagłówek formularza -->
 
     <!-- Sekcja komunikatów: Wyświetla komunikaty o sukcesie lub błędzie -->
     <?php if (isset($_GET['success']) && $_GET['success'] === 'owner_added'): ?>
-        <!-- Jeśli właściciel został dodany pomyślnie, pokaż komunikat sukcesu -->
+        <!-- Komunikat sukcesu po dodaniu właściciela -->
         <div class="alert alert-success">
             Nowy właściciel został dodany pomyślnie!
         </div>
     <?php elseif (isset($_GET['error'])): ?>
-        <!-- Jeśli wystąpił błąd, pokaż komunikat błędu -->
+        <!-- Komunikat błędu w przypadku problemów -->
         <div class="alert alert-danger">
             <?= htmlspecialchars($_GET['error']) ?>
         </div>
@@ -59,12 +60,3 @@ if (!canAddData()) {
         <button type="submit" class="btn btn-success">Dodaj</button>
     </form>
 </div>
-
-<!--
-Komentarze kluczowe:
-- Plik generuje formularz do dodawania nowych właścicieli.
-- Formularz przesyła dane do akcji "save_owner" w kontrolerze.
-- Dane do wprowadzenia obejmują: imię, nazwisko, numer telefonu, adres email oraz procent prowizji.
-- W przypadku sukcesu lub błędu wyświetlane są odpowiednie komunikaty.
-- Pola są oznaczone jako "required", aby wymusić ich uzupełnienie przed przesłaniem formularza.
--->

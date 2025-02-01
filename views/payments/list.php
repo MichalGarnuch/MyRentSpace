@@ -1,7 +1,7 @@
-<div class="container"> <!-- Główny kontener strony -->
+<div class="container"> <!-- Kontener na stronę wyświetlającą listę płatności -->
     <h1 class="mb-4">Lista Płatności</h1> <!-- Nagłówek strony -->
 
-    <!-- Tabela wyświetlająca listę płatności -->
+    <!-- Tabela do wyświetlania listy płatności -->
     <table class="table table-striped">
         <thead>
         <tr>
@@ -15,36 +15,26 @@
         </tr>
         </thead>
         <tbody>
-        <!-- Jeśli w zmiennej $payments są dane -->
+        <!-- Sprawdzanie, czy są dane w zmiennej $payments -->
         <?php if (!empty($payments)): ?>
-            <!-- Iteracja przez każdą płatność w tablicy $payments -->
+            <!-- Iteracja po każdej płatności w tablicy $payments -->
             <?php foreach ($payments as $payment): ?>
                 <tr>
-                    <!-- Wyświetlenie danych każdej płatności -->
+                    <!-- Wyświetlanie danych dla każdej płatności -->
                     <td><?= htmlspecialchars($payment['id'] ?? '-') ?></td> <!-- ID płatności -->
                     <td><?= htmlspecialchars('Umowa #' . ($payment['agreement_id'] ?? '-')) ?></td> <!-- Opis umowy -->
                     <td><?= htmlspecialchars($payment['payment_date'] ?? '-') ?></td> <!-- Data płatności -->
-                    <td><?= htmlspecialchars(number_format($payment['amount'] ?? 0, 2)) ?> PLN</td> <!-- Kwota -->
-                    <td><?= htmlspecialchars($payment['type'] ?? '-') ?></td> <!-- Typ -->
-                    <td><?= htmlspecialchars($payment['status'] ?? '-') ?></td> <!-- Status -->
+                    <td><?= htmlspecialchars(number_format($payment['amount'] ?? 0, 2)) ?> PLN</td> <!-- Kwota z formatowaniem -->
+                    <td><?= htmlspecialchars($payment['type'] ?? '-') ?></td> <!-- Typ płatności -->
+                    <td><?= htmlspecialchars($payment['status'] ?? '-') ?></td> <!-- Status płatności -->
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
-            <!-- Jeśli brak danych w $payments -->
+            <!-- Jeśli brak danych w $payments, wyświetl komunikat -->
             <tr>
-                <td colspan="6" class="text-center">Brak płatności do wyświetlenia</td> <!-- Komunikat -->
+                <td colspan="6" class="text-center">Brak płatności do wyświetlenia</td> <!-- Komunikat o braku danych -->
             </tr>
         <?php endif; ?>
         </tbody>
     </table>
 </div>
-
-<!--
-Komentarze kluczowe:
-1. Plik generuje listę płatności na podstawie danych przechowywanych w zmiennej $payments.
-2. Dane są iterowane w pętli foreach, gdzie każdy wiersz reprezentuje jedną płatność.
-3. Funkcja htmlspecialchars() zabezpiecza dane przed atakami XSS.
-4. W przypadku braku danych w tablicy wyświetlany jest komunikat "Brak płatności do wyświetlenia".
-5. Kwoty płatności są formatowane za pomocą number_format() do dwóch miejsc po przecinku.
-6. Struktura i styl tabeli odpowiadają schematowi używanemu w widoku buildings/list.
--->
