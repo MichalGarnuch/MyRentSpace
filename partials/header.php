@@ -13,7 +13,7 @@ require_once __DIR__ . '/../helpers/functions.php';
             <!-- Dropdown z opcjami do dodania nowych danych -->
             <div class="dropdown">
                 <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="assets/icon1.jpeg" alt="Dodaj nowe dane" style="width: 120px; height: auto;">
+                    <img src="assets/icon3.jpg" alt="Dodaj nowe dane" style="width: 190px; height: auto;">
                 </button>
                 <!-- Lista opcji w dropdownie -->
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
