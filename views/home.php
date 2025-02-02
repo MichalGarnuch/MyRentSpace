@@ -10,13 +10,15 @@
          style="background: rgba(255, 255, 255, 0.9); max-width: 500px;">
 
         <!-- Logo - z automatycznym dopasowaniem szerokości -->
-        <img src="assets/logo.jpeg" alt="MyRentSpace" class="mb-4" style="width: 120px;">
+        <img src="assets/icon2.jpeg" alt="MyRentSpace" class="mb-4" style="width: 200px;">
 
         <!-- Nagłówek strony -->
-        <h1 class="fw-bold text-primary">MyRentSpace</h1>
+        <h1 class="fw-bold text-primary" style="font-size: 3rem;"> <!-- Pogrubienie i zwiększenie czcionki -->
+            <img src="assets/icon1.jpeg" alt="MyRentSpace" style="width: 200px;"> <!-- Ikona zamiast tekstu -->
+        </h1>
 
         <!-- Krótkie info o funkcjonalności aplikacji -->
-        <p class="text-muted">Zarządzaj najmem łatwo i wygodnie</p>
+        <p class="text-muted" style="font-size: 1.25rem; font-weight: 600;">Zarządzaj najmem łatwo i wygodnie</p>
 
         <div class="mt-4">
             <!-- Przycisk do przeglądania dostępnych budynków -->

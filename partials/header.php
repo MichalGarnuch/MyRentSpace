@@ -3,7 +3,9 @@ require_once __DIR__ . '/../helpers/functions.php';
 ?>
 
 <header class="d-flex justify-content-between align-items-center p-3 bg-light">
-    <h1 class="h4">MyRentSpace</h1> <!-- Nagłówek strony z nazwą aplikacji -->
+    <a href="index.php">
+        <img src="assets/icon2.jpeg" alt="Logo" style="width: 80px;"> <!-- Ikona zamiast napisu -->
+    </a> <!-- Nagłówek strony z nazwą aplikacji -->
 
     <nav>
         <!-- Sprawdza, czy użytkownik jest zalogowany -->
