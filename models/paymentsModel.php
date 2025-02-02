@@ -1,19 +1,17 @@
 <?php
-// Klasa PaymentsModel obsługuje komunikację z bazą danych dla tabeli `rent_payments` i powiązanych danych.
-// Model zawiera metody do pobierania, zapisywania oraz zarządzania danymi w bazie.
+// Klasa PaymentsModel obsługuje komunikację z bazą danych dla tabeli `rent_payments`.
+// Zawiera metody do pobierania, zapisywania i zarządzania danymi płatności.
 
 class PaymentsModel {
-    // Prywatna zmienna $db przechowuje połączenie z bazą danych.
+    // Połączenie z bazą danych
     private $db;
 
-    // Konstruktor klasy, który przyjmuje połączenie z bazą ($db) i przypisuje je do zmiennej $db.
+    // Konstruktor klasy przyjmujący połączenie z bazą ($db)
     public function __construct($db) {
         $this->db = $db;
     }
 
-    // Funkcja getAll: Pobiera wszystkie płatności z tabeli `rent_payments` i powiązane umowy z tabeli `rental_agreements`.
-    // 1. Łączy tabelę `rent_payments` z tabelą `rental_agreements` za pomocą klucza obcego `rental_agreement_id`.
-    // 2. Zwraca wyniki jako tablicę asocjacyjną, gotową do użycia w kontrolerze.
+    // Pobiera wszystkie płatności z tabeli `rent_payments` oraz powiązane umowy z tabeli `rental_agreements`
     public function getAll() {
         $query = "
             SELECT p.id, p.payment_date, p.amount, p.type, p.status, 
@@ -21,50 +19,44 @@ class PaymentsModel {
             FROM rent_payments p
             JOIN rental_agreements r ON p.rental_agreement_id = r.id
         ";
-        // Wykonanie zapytania SQL
         $result = $this->db->query($query);
 
         if ($result) {
-            // Zwraca wszystkie rekordy jako tablicę asocjacyjną.
+            // Zwraca wyniki jako tablicę asocjacyjną
             return $result->fetch_all(MYSQLI_ASSOC);
         } else {
-            // Jeśli wystąpi błąd, rzuca wyjątek z komunikatem o błędzie SQL.
+            // Rzuca wyjątek w przypadku błędu zapytania SQL
             throw new Exception("Błąd zapytania SQL: " . $this->db->error);
         }
     }
 
-    // Funkcja getAllAgreements: Pobiera wszystkie umowy najmu z tabeli `rental_agreements`.
-    // 1. Przyjmuje dane o umowach i generuje opis w formacie: "Umowa #ID (start_date - end_date)".
-    // 2. Zwraca wyniki jako tablicę asocjacyjną.
+    // Pobiera wszystkie umowy najmu z tabeli `rental_agreements`
     public function getAllAgreements() {
         $query = "
             SELECT id, CONCAT('Umowa #', id, ' (', start_date, ' - ', end_date, ')') AS agreement_description 
             FROM rental_agreements 
             ORDER BY id ASC
         ";
-        // Wykonanie zapytania SQL
         $result = $this->db->query($query);
 
         if ($result) {
-            // Zwraca wszystkie rekordy jako tablicę asocjacyjną.
+            // Zwraca wyniki jako tablicę asocjacyjną
             return $result->fetch_all(MYSQLI_ASSOC);
         } else {
-            // Jeśli wystąpi błąd, rzuca wyjątek z komunikatem o błędzie SQL.
+            // Rzuca wyjątek w przypadku błędu zapytania SQL
             throw new Exception("Błąd zapytania SQL: " . $this->db->error);
         }
     }
 
-    // Funkcja save: Zapisuje nową płatność do tabeli `rent_payments`.
-    // 1. Przyjmuje dane: `rental_agreement_id`, `payment_date`, `amount`, `type`, `status`.
-    // 2. Zwraca `true` po pomyślnym zapisaniu danych lub rzuca wyjątek w przypadku błędu.
+    // Zapisuje nową płatność do tabeli `rent_payments`
     public function save($data) {
         $query = "
             INSERT INTO rent_payments (rental_agreement_id, payment_date, amount, type, status) 
             VALUES (?, ?, ?, ?, ?)
         ";
         $stmt = $this->db->prepare($query); // Przygotowanie zapytania SQL
-        $stmt->bind_param("isdss", // Typy danych: i - integer, s - string, d - double
-            $data['rental_agreement_id'], // ID umowy najmu (int)
+        $stmt->bind_param("isdss",
+            $data['rental_agreement_id'], // ID umowy najmu (integer)
             $data['payment_date'],        // Data płatności (string)
             $data['amount'],              // Kwota płatności (double)
             $data['type'],                // Typ płatności (string)
@@ -72,11 +64,12 @@ class PaymentsModel {
         );
 
         if ($stmt->execute()) {
-            // Zwraca `true`, jeśli zapis się powiódł.
+            // Zwraca `true`, jeśli zapis się powiódł
             return true;
         } else {
-            // Jeśli wystąpi błąd, rzuca wyjątek z komunikatem o błędzie.
+            // Rzuca wyjątek w przypadku błędu zapisu
             throw new Exception("Błąd zapisu: " . $stmt->error);
         }
     }
 }
+?>

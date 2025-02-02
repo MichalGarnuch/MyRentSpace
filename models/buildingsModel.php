@@ -3,17 +3,14 @@
 // Model zawiera metody do pobierania, zapisywania oraz zarządzania danymi w bazie.
 
 class BuildingsModel {
-    // Prywatna zmienna $db przechowuje połączenie z bazą danych.
-    private $db;
+    private $db; // Prywatna zmienna przechowująca połączenie z bazą danych.
 
-    // Konstruktor klasy, który przyjmuje połączenie z bazą ($db) i przypisuje je do zmiennej $db.
+    // Konstruktor przyjmuje połączenie z bazą ($db) i przypisuje je do zmiennej $db.
     public function __construct($db) {
         $this->db = $db;
     }
 
     // Funkcja getAll: Pobiera wszystkie budynki z tabeli `buildings` i powiązane miejscowości z tabeli `locations`.
-    // 1. Łączy tabelę `buildings` z tabelą `locations` za pomocą klucza obcego `location_id`.
-    // 2. Zwraca wyniki jako tablicę asocjacyjną, gotową do użycia w kontrolerze.
     public function getAll() {
         $query = "
             SELECT b.id, l.city, l.postal_code, b.street, b.building_number, b.total_floors, b.common_cost
@@ -51,7 +48,6 @@ class BuildingsModel {
 
     // Funkcja getAllLocations: Pobiera wszystkie miejscowości z tabeli `locations`.
     // 1. Zwraca wyniki posortowane alfabetycznie według kolumny `city`.
-    // 2. Zwraca wyniki jako tablicę asocjacyjną.
     public function getAllLocations() {
         $query = "SELECT id, city, postal_code FROM locations ORDER BY city ASC"; // Zapytanie SQL
         $result = $this->db->query($query);
@@ -89,3 +85,4 @@ class BuildingsModel {
         }
     }
 }
+?>

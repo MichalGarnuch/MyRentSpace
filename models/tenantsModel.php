@@ -1,52 +1,37 @@
 <?php
-// Klasa TenantsModel obsługuje komunikację z bazą danych dla tabeli `tenants`.
-// Model zawiera metody do pobierania, zapisywania oraz zarządzania danymi w bazie.
-
+// Klasa obsługująca komunikację z bazą danych dla tabeli `tenants`.
 class TenantsModel {
-    // Prywatna zmienna $db przechowuje połączenie z bazą danych.
+    // Połączenie z bazą danych
     private $db;
 
-    // Konstruktor klasy, który przyjmuje połączenie z bazą ($db) i przypisuje je do zmiennej $db.
+    // Konstruktor - przyjmuje połączenie z bazą ($db)
     public function __construct($db) {
         $this->db = $db;
     }
 
-    // Funkcja getAll: Pobiera wszystkich najemców z tabeli `tenants`.
-    // 1. Zwraca wyniki jako tablicę asocjacyjną, gotową do użycia w kontrolerze.
+    // Pobiera wszystkich najemców z tabeli `tenants`
     public function getAll() {
         $query = "SELECT id, first_name, last_name, phone, email FROM tenants";
-        // Wykonanie zapytania SQL
         $result = $this->db->query($query);
 
         if ($result) {
-            // Zwraca wszystkie rekordy jako tablicę asocjacyjną.
-            return $result->fetch_all(MYSQLI_ASSOC);
+            return $result->fetch_all(MYSQLI_ASSOC); // Zwraca dane jako tablicę
         } else {
-            // Jeśli wystąpi błąd, rzuca wyjątek z komunikatem o błędzie SQL.
-            throw new Exception("Błąd zapytania SQL: " . $this->db->error);
+            throw new Exception("Błąd zapytania SQL: " . $this->db->error); // Błąd zapytania
         }
     }
 
-    // Funkcja save: Zapisuje nowego najemcę do tabeli `tenants`.
-    // 1. Przyjmuje dane: `first_name`, `last_name`, `phone`, `email`.
-    // 2. Zwraca `true` po pomyślnym zapisaniu danych lub rzuca wyjątek w przypadku błędu.
+    // Zapisuje nowego najemcę do bazy danych
     public function save($data) {
-        $query = "INSERT INTO tenants (first_name, last_name, phone, email) 
-                  VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO tenants (first_name, last_name, phone, email) VALUES (?, ?, ?, ?)";
         $stmt = $this->db->prepare($query); // Przygotowanie zapytania SQL
-        $stmt->bind_param("ssss", // Typy danych: s - string
-            $data['first_name'],
-            $data['last_name'],
-            $data['phone'],
-            $data['email']
-        );
+        $stmt->bind_param("ssss", $data['first_name'], $data['last_name'], $data['phone'], $data['email']); // Powiązanie danych
 
         if ($stmt->execute()) {
-            // Zwraca `true`, jeśli zapis się powiódł.
-            return true;
+            return true; // Jeśli zapis udany
         } else {
-            // Jeśli wystąpi błąd, rzuca wyjątek z komunikatem o błędzie.
-            throw new Exception("Błąd zapisu: " . $stmt->error);
+            throw new Exception("Błąd zapisu: " . $stmt->error); // Błąd zapisu
         }
     }
 }
+?>

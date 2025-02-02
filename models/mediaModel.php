@@ -3,15 +3,15 @@
 // Model zawiera metody do pobierania, zapisywania oraz zarządzania danymi związanymi z mediami.
 
 class MediaModel {
-    // Prywatna zmienna $db przechowuje połączenie z bazą danych.
-    private $db;
+    private $db;  // Prywatna zmienna przechowująca połączenie z bazą danych.
 
-    // Konstruktor klasy, który przyjmuje połączenie z bazą ($db) i przypisuje je do zmiennej $db.
+    // Konstruktor przyjmujący połączenie z bazą ($db) i przypisujący je do zmiennej $db.
     public function __construct($db) {
         $this->db = $db;
     }
 
     // Funkcja getAll: Pobiera wszystkie odczyty zużycia mediów wraz z powiązanymi danymi.
+    // Łączy tabelę `media_usage` z tabelami `apartments`, `buildings`, `locations`, `media_types` oraz `rental_agreements`.
     public function getAll() {
         $query = "
             SELECT 
@@ -36,9 +36,9 @@ class MediaModel {
         $result = $this->db->query($query);
 
         if ($result) {
-            return $result->fetch_all(MYSQLI_ASSOC);
+            return $result->fetch_all(MYSQLI_ASSOC); // Zwraca wszystkie rekordy jako tablicę asocjacyjną.
         } else {
-            throw new Exception("Błąd zapytania SQL: " . $this->db->error);
+            throw new Exception("Błąd zapytania SQL: " . $this->db->error); // Rzuca wyjątek w przypadku błędu.
         }
     }
 
@@ -48,9 +48,9 @@ class MediaModel {
         $result = $this->db->query($query);
 
         if ($result) {
-            return $result->fetch_all(MYSQLI_ASSOC);
+            return $result->fetch_all(MYSQLI_ASSOC); // Zwraca wszystkie typy mediów.
         } else {
-            throw new Exception("Błąd zapytania SQL: " . $this->db->error);
+            throw new Exception("Błąd zapytania SQL: " . $this->db->error); // Błąd zapytania.
         }
     }
 
@@ -69,13 +69,14 @@ class MediaModel {
         $result = $this->db->query($query);
 
         if ($result) {
-            return $result->fetch_all(MYSQLI_ASSOC);
+            return $result->fetch_all(MYSQLI_ASSOC); // Zwraca wszystkie mieszkania z pełnym adresem.
         } else {
-            throw new Exception("Błąd zapytania SQL: " . $this->db->error);
+            throw new Exception("Błąd zapytania SQL: " . $this->db->error); // Błąd zapytania.
         }
     }
 
     // Funkcja getRentalAgreementsByApartment: Pobiera umowy najmu dla konkretnego mieszkania.
+    // Łączy tabelę `rental_agreements` z danymi o umowach.
     public function getRentalAgreementsByApartment($apartmentId) {
         $query = "
             SELECT 
@@ -87,18 +88,19 @@ class MediaModel {
             ORDER BY ra.start_date DESC
         ";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param("i", $apartmentId);
+        $stmt->bind_param("i", $apartmentId); // Przygotowanie zapytania z parametrem ID mieszkania.
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result) {
-            return $result->fetch_all(MYSQLI_ASSOC);
+            return $result->fetch_all(MYSQLI_ASSOC); // Zwraca wszystkie umowy najmu dla mieszkania.
         } else {
-            throw new Exception("Błąd zapytania SQL: " . $this->db->error);
+            throw new Exception("Błąd zapytania SQL: " . $this->db->error); // Błąd zapytania.
         }
     }
-// Duplicate method removed. The original getAllApartments() is retained earlier in the code.
+
     // Funkcja save: Zapisuje nowy odczyt zużycia mediów do tabeli `media_usage`.
+    // Przed zapisaniem przeprowadza walidację mieszkania, typu medium i umowy najmu.
     public function save($data) {
         // Walidacja mieszkania
         $apartmentQuery = "SELECT id FROM apartments WHERE id = ?";
@@ -135,9 +137,9 @@ class MediaModel {
             VALUES (?, ?, ?, ?, ?, ?)
         ";
         $stmt = $this->db->prepare($query);
-        $archived = $data['archived'] ?? 0;
+        $archived = $data['archived'] ?? 0; // Domyślna wartość dla 'archived'.
         $stmt->bind_param(
-            "iiidsi",
+            "iiidsi", // Typy danych: i - integer, d - double, s - string
             $data['apartment_id'],
             $data['media_type_id'],
             $data['rental_agreement_id'],
@@ -147,9 +149,10 @@ class MediaModel {
         );
 
         if ($stmt->execute()) {
-            return true;
+            return true; // Zwraca true, jeśli zapis się powiódł.
         } else {
-            throw new Exception("Błąd zapisu: " . $stmt->error);
+            throw new Exception("Błąd zapisu: " . $stmt->error); // Błąd zapisu.
         }
     }
 }
+?>
