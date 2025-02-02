@@ -25,3 +25,14 @@ Kliknij Go.
 3. Uruchom aplikację: Umieść pliki projektu na serwerze 
 lokalnym (np. w folderze htdocs w XAMPP) i otwórz aplikację 
 w przeglądarce.
+
+Screen-y z działania aplikacji:
+![Zrzut ekranu 2025-02-02 153411](https://github.com/user-attachments/assets/6b51eb3a-2649-4e5c-b183-b54f55f4b4b0)
+Strona główna wylogowana:
+![Zrzut ekranu 2025-02-02 153330](https://github.com/user-attachments/assets/06cef3c3-1c35-4cd6-82a3-bac89f9a4af3)
+Strona główna zalogowana:
+![Zrzut ekranu 2025-02-02 153113](https://github.com/user-attachments/assets/1181fd52-6cf6-4105-b84b-2b1d62e9e557)
+
+
+
+
