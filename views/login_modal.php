@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Nagłówek modala -->
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title" id="loginModalLabel">Zaloguj się</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
             </div>
@@ -31,7 +31,7 @@
                     </div>
 
                     <!-- Przycisk logowania -->
-                    <button type="submit" class="btn btn-primary w-100">Zaloguj się</button>
+                    <button type="submit" class="btn btn-warning w-100">Zaloguj się</button>
                 </form>
             </div>
         </div>

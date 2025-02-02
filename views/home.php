@@ -22,10 +22,10 @@
 
         <div class="mt-4">
             <!-- Przycisk do przeglądania dostępnych budynków -->
-            <a href="index.php?view=buildings" class="btn btn-lg btn-primary me-2">Przeglądaj</a>
+            <a href="index.php?view=buildings" class="btn btn-dark btn-black me-2">Przeglądaj</a>
 
             <!-- Przycisk otwierający modal logowania -->
-            <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-lg btn-outline-primary">Zaloguj się</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" class="btn btn-lg btn-warning">Zaloguj się</a>
         </div>
     </div>
 </div>

@@ -12,8 +12,8 @@ require_once __DIR__ . '/../helpers/functions.php';
         <?php if (isLoggedIn()): ?>
             <!-- Dropdown z opcjami do dodania nowych danych -->
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dodaj nowe dane
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="assets/icon1.jpeg" alt="Dodaj nowe dane" style="width: 120px; height: auto;">
                 </button>
                 <!-- Lista opcji w dropdownie -->
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -36,10 +36,10 @@ require_once __DIR__ . '/../helpers/functions.php';
         <!-- Jeśli użytkownik jest zalogowany, pokazuje jego nazwę i przycisk wylogowania -->
         <?php if (isset($_SESSION['user_id'])): ?>
             <span class="me-3">👤 <?= htmlspecialchars($_SESSION['username']) ?></span> <!-- Wyświetlenie nazwy użytkownika -->
-            <a href="auth/logout.php" class="btn btn-danger">Wyloguj się</a> <!-- Przycisk wylogowania -->
+            <a href="auth/logout.php" class="btn btn-dark">Wyloguj się</a> <!-- Przycisk wylogowania -->
         <?php else: ?>
             <!-- Jeśli użytkownik nie jest zalogowany, pokazuje przycisk do logowania -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#loginModal">
                 Zaloguj się
             </button> <!-- Przycisk logowania -->
         <?php endif; ?>
