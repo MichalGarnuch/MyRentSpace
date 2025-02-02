@@ -1,5 +1,5 @@
 <?php
-// Import modelu MaintenanceModel, który obsługuje dane z bazy dotyczące zgłoszeń serwisowych.
+// Import modelu MaintenanceModel
 require_once __DIR__ . '/../models/maintenanceModel.php';
 
 class MaintenanceController {
@@ -12,8 +12,8 @@ class MaintenanceController {
     // Wyświetla listę zgłoszeń serwisowych
     public function listMaintenance() {
         try {
-            $maintenanceRequests = $this->model->getAll(); // Pobranie danych o zgłoszeniach
-            require __DIR__ . '/../views/maintenance/list.php'; // Przekazanie danych do widoku
+            $maintenanceRequests = $this->model->getAll(); // Pobranie danych
+            require __DIR__ . '/../views/maintenance/list.php'; // Przekazanie do widoku
         } catch (Exception $e) {
             echo "<div class='alert alert-danger'>Błąd: " . htmlspecialchars($e->getMessage()) . "</div>";
         }
@@ -23,13 +23,13 @@ class MaintenanceController {
     public function addMaintenanceView() {
         try {
             $apartments = $this->model->getAllApartments(); // Pobranie mieszkań
-            require __DIR__ . '/../views/maintenance/add_maintenance.php'; // Przekazanie danych do widoku
+            require __DIR__ . '/../views/maintenance/add_maintenance.php'; // Formularz
         } catch (Exception $e) {
             echo "<div class='alert alert-danger'>Błąd: " . htmlspecialchars($e->getMessage()) . "</div>";
         }
     }
 
-    // Obsługuje zapis nowego zgłoszenia serwisowego do bazy danych
+    // Zapisuje nowe zgłoszenie serwisowe
     public function saveMaintenance($data) {
         try {
             // Walidacja danych
@@ -38,7 +38,7 @@ class MaintenanceController {
                 exit();
             }
 
-            // Zapis danych do bazy
+            // Zapis do bazy
             $this->model->add([
                 'apartment_id' => $data['apartment_id'],
                 'description' => $data['description'],
@@ -54,18 +54,18 @@ class MaintenanceController {
         }
     }
 
-    // Wyświetla formularz edycji zgłoszenia serwisowego
+    // Wyświetla formularz edycji zgłoszenia
     public function editMaintenanceView($id) {
         try {
-            $maintenance = $this->model->getById($id); // Pobranie szczegółów zgłoszenia
-            $apartments = $this->model->getAllApartments(); // Pobranie listy mieszkań
-            require __DIR__ . '/../views/maintenance/edit_maintenance.php'; // Przekazanie danych do widoku
+            $maintenance = $this->model->getById($id); // Pobranie szczegółów
+            $apartments = $this->model->getAllApartments(); // Pobranie mieszkań
+            require __DIR__ . '/../views/maintenance/edit_maintenance.php'; // Formularz
         } catch (Exception $e) {
             echo "<div class='alert alert-danger'>Błąd: " . htmlspecialchars($e->getMessage()) . "</div>";
         }
     }
 
-    // Obsługuje aktualizację istniejącego zgłoszenia serwisowego
+    // Aktualizuje zgłoszenie serwisowe
     public function updateMaintenance($data) {
         try {
             // Walidacja danych
@@ -89,10 +89,10 @@ class MaintenanceController {
         }
     }
 
-    // Obsługuje usunięcie zgłoszenia serwisowego
+    // Usuwa zgłoszenie serwisowe
     public function deleteMaintenance($id) {
         try {
-            $this->model->delete($id); // Usunięcie zgłoszenia z bazy
+            $this->model->delete($id); // Usunięcie zgłoszenia
             header('Location: index.php?view=maintenance&success=maintenance_deleted');
             exit();
         } catch (Exception $e) {

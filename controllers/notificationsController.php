@@ -1,48 +1,43 @@
 <?php
-// Import modelu NotificationsModel, który obsługuje dane z bazy dotyczące powiadomień
+// Import modelu NotificationsModel do obsługi powiadomień
 require_once __DIR__ . '/../models/notificationsModel.php';
 
-// Klasa NotificationsController obsługuje logikę biznesową dotyczącą powiadomień.
-// Kontroler łączy dane z modelu i przekazuje je do widoków.
 class NotificationsController {
     private $model;
 
+    // Konstruktor inicjuje model NotificationsModel
     public function __construct($db) {
-        $this->model = new NotificationsModel($db); // Inicjalizacja modelu
+        $this->model = new NotificationsModel($db);
     }
 
     // Wyświetla listę powiadomień
     public function listNotifications() {
         try {
-            $notifications = $this->model->getAll(); // Pobranie danych o powiadomieniach
-            require __DIR__ . '/../views/notifications/list.php'; // Przekazanie danych do widoku
+            $notifications = $this->model->getAll();
+            require __DIR__ . '/../views/notifications/list.php';
         } catch (Exception $e) {
-            // Obsługa błędu i przekierowanie z komunikatem
             header('Location: ../index.php?view=error&message=' . urlencode($e->getMessage()));
         }
     }
 
-    // Wyświetla formularz dodawania nowego powiadomienia
+    // Wyświetla formularz dodawania powiadomienia
     public function addNotificationView() {
         try {
-            $users = $this->model->getAllUsers(); // Pobranie listy użytkowników
-            require __DIR__ . '/../views/notifications/add_notification.php'; // Przekazanie danych do widoku
+            $users = $this->model->getAllUsers();
+            require __DIR__ . '/../views/notifications/add_notification.php';
         } catch (Exception $e) {
-            // Obsługa błędu i przekierowanie z komunikatem
             header('Location: ../index.php?view=error&message=' . urlencode($e->getMessage()));
         }
     }
 
-    // Obsługuje zapis nowego powiadomienia do bazy danych
+    // Zapisuje nowe powiadomienie
     public function saveNotification($data) {
         try {
-            // Walidacja danych
             if (empty($data['user_id']) || empty($data['message']) || empty($data['type'])) {
                 header('Location: index.php?view=add_notification&error=empty_fields');
                 exit();
             }
 
-            // Zapis powiadomienia w bazie
             $this->model->add([
                 'user_id' => $data['user_id'],
                 'message' => $data['message'],
@@ -52,34 +47,30 @@ class NotificationsController {
             header('Location: index.php?view=add_notification&success=notification_added');
             exit();
         } catch (Exception $e) {
-            // Obsługa błędu i przekierowanie z komunikatem
             header('Location: index.php?view=add_notification&error=' . urlencode($e->getMessage()));
             exit();
         }
     }
 
-    // Wyświetla formularz edycji istniejącego powiadomienia
+    // Wyświetla formularz edycji powiadomienia
     public function editNotificationView($id) {
         try {
-            $notification = $this->model->getById($id); // Pobranie szczegółów powiadomienia
-            $users = $this->model->getAllUsers(); // Pobranie listy użytkowników
-            require __DIR__ . '/../views/notifications/edit_notification.php'; // Przekazanie danych do widoku
+            $notification = $this->model->getById($id);
+            $users = $this->model->getAllUsers();
+            require __DIR__ . '/../views/notifications/edit_notification.php';
         } catch (Exception $e) {
-            // Obsługa błędu i przekierowanie z komunikatem
             header('Location: ../index.php?view=error&message=' . urlencode($e->getMessage()));
         }
     }
 
-    // Obsługuje aktualizację powiadomienia
+    // Aktualizuje powiadomienie w bazie
     public function updateNotification($data) {
         try {
-            // Walidacja danych
             if (empty($data['id']) || empty($data['message']) || empty($data['type']) || empty($data['status'])) {
                 header('Location: index.php?view=edit_notification&error=empty_fields&id=' . urlencode($data['id']));
                 exit();
             }
 
-            // Aktualizacja powiadomienia w bazie
             $this->model->update([
                 'id' => $data['id'],
                 'message' => $data['message'],
@@ -90,20 +81,18 @@ class NotificationsController {
             header('Location: index.php?view=notifications&success=notification_updated');
             exit();
         } catch (Exception $e) {
-            // Obsługa błędu i przekierowanie z komunikatem
             header('Location: index.php?view=edit_notification&error=' . urlencode($e->getMessage()) . '&id=' . urlencode($data['id']));
             exit();
         }
     }
 
-    // Usuwa powiadomienie na podstawie ID
+    // Usuwa powiadomienie
     public function deleteNotification($id) {
         try {
-            $this->model->delete($id); // Usunięcie powiadomienia z bazy
+            $this->model->delete($id);
             header('Location: index.php?view=notifications&success=notification_deleted');
             exit();
         } catch (Exception $e) {
-            // Obsługa błędu i przekierowanie z komunikatem
             header('Location: index.php?view=notifications&error=' . urlencode($e->getMessage()));
             exit();
         }

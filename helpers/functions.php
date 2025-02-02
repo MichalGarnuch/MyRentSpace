@@ -18,7 +18,7 @@ function isAdmin() {
 }
 
 /**
- * Sprawdza, czy użytkownik może dodawać dane (admin + zwykli użytkownicy).
+ * Sprawdza, czy użytkownik może dodawać dane.
  * @return bool
  */
 function canAddData() {
